@@ -54,3 +54,5 @@ tmp/plumb.log
 sys/emu/Nt/iacme.exe
 *.map
 sys/emu/Nt/icell.exe
+.hgignore
+iacme.exe
