@@ -1,0 +1,29 @@
+.TH RECT 1
+.SH NAME
+rect \- delete/replace a rectangular area of text in an acme window
+.SH SYNOPSIS
+.B rect
+[
+.I replacement
+]
+.SH DESCRIPTION
+.I Rect
+deletes a rectangular area of text in an acme window.
+If
+.I replacement
+is given, it replaces each line in
+the rectangle with the
+.IR replacement .
+The input rectangular area is specified by making
+a selection in the acme window.  The beginning and
+end of the selection define the top left and
+bottom right corners of the rectangle.
+.PP
+.I Rect
+is useful when dealing with text in multi-column
+formats (e.g., log files).  It can also be used to
+comment/uncomment, indent/unindent source code.
+.SH SOURCE
+.B /appl/acme/acme/bin/rect.b
+.SH SEE ALSO
+.IR acme (1)

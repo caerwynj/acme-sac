@@ -1,0 +1,26 @@
+my first wiki page
+D0
+CThis is a new page
+ACaerwyn Jones
+#
+#HEADING
+#
+#This is a test wiki page with no special formatting.
+#
+#with an empty line and some more lines of text.
+#
+#this line has extra spaces.
+#
+#We'd like to find a few bugs. This is our first attempt [google |  http://google.com] at a link.
+#
+#This is some
+#!  preformatted text that
+#!  should not be adjusted
+#!  by the test
+#the end of the preformatted text the end.
+#
+#And finally
+# *	a bullet list
+# *	item 2
+# *	item 3 This is the end of the tests.
+#

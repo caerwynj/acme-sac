@@ -1,0 +1,3 @@
+# Limbo mk generic config
+ROOT=
+SHELLTYPE=rc

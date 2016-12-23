@@ -1,0 +1,3 @@
+Local mount -9 tcp!plan9.bell-labs.com!wiki /mnt/wiki
+Local mount -A tcp!canto.hopto.org!wiki /mnt/wiki
+Wiki

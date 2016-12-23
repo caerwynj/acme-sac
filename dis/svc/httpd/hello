@@ -1,0 +1,10 @@
+#!/dis/sh
+
+load std echo
+echo '<html>
+<head><title>hello world</title></head>
+<body>'
+echo hello world doodah
+
+echo '</body>
+</html>'

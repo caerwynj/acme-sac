@@ -1,0 +1,37 @@
+acme-fg-text-0='#44CC00'
+acme-bg-text-0='#000000'
+
+#button 1 col
+acme-fg-text-1='#000000'
+acme-bg-text-1='#EEEE9E'
+
+#button 2 col
+acme-fg-text-2='#FFFFFF'
+
+acme-bg-text-2='#FF0000'
+# button 3 col
+acme-fg-text-3='#FFFFFF'
+acme-bg-text-3='#00FF00'
+
+#tags
+acme-fg-tag-0='#44CC00'
+acme-bg-tag-0='#000055/#222222'
+
+acme-fg-tag-1='#000000'
+acme-bg-tag-1='#8888CC'
+
+# top of tag border 
+acme-bord-col-0='#AAFF55/#666666'
+
+# column separator color
+acme-bord-row-0='#44CC00'
+
+# separator between tag and text body
+acme-bord-tag-0='#88CC00/#AAAAAA'
+
+# scroll bar color bg
+acme-bord-text-0='#AAFF55/#666666'
+
+acme-font=/fonts/lucidasans/unicode.8.font
+acme-Font=/fonts/lucm/unicode.9.font
+

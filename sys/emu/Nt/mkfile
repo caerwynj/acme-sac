@@ -1,0 +1,46 @@
+SYSTARG=Nt
+OBJTYPE=386
+#uncomment following line for full Microsoft debug symbols
+#LDEBUG=-debug -debugtype:cv -pdb:none
+<../../mkconfig
+SYSTARG=Nt
+OBJTYPE=386
+
+#Configurable parameters
+
+CONF=acme			#default configuration
+CONFLIST=acme cell
+CLEANCONFLIST=
+
+INSTALLDIR=../../$SYSTARG/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<| sh ../port/mkdevlist < $CONF	#sets $IP, $DEVS, $PORT, $LIBS
+
+OBJ=\
+	$CONF.root.$O\
+	lock.$O\
+	fp.$O\
+#	vlrt.$O\
+	$DEVS\
+	$PORT\
+
+HFILES=\
+
+CFLAGS=  -DEMU -I. -I../port -I../../$SYSTARG/$OBJTYPE/include -I../../include -I../../libinterp $CTHREADFLAGS $CFLAGS $EMUOPTIONS
+#SYSLIBS=	$SYSLIBS 
+#wsock32.lib user32.lib gdi32.lib advapi32.lib winmm.lib mpr.lib
+KERNDATE=`{$NDATE}
+
+default:V:	i$CONF.exe
+
+<../port/portmkfile
+
+i$CONF.exe:	$OBJ $CONF.$O $CONF.root.h $LIBFILES
+	$LD $target   $OBJ $CONF.$O $LIBFILES $SYSLIBS
+
+$CONF.obj: $CONF.c
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+
+install:V: $INSTALLDIR/i$CONF.exe

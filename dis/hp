@@ -1,0 +1,30 @@
+#!/dis/sh.dis
+# convert a inferno path to valid host path for os(1), or at least attempt to:
+# it can guess letter units, but can't convert inferno remote names.
+# - guessing the meaning of hp?, maybe means horrible hack or huseful
+load std
+
+if {no $*}{
+	echo 'usage: hp <inf-path> # to get host path'
+}
+
+if {~ $emuhost Nt}{
+	fn slashpath () { sed 's|\\|\\\\|g'; }
+	# put two where there's one
+	emuroot=`{echo $emuroot | slashpath | slashpath}
+	
+	for p in $* {
+		cleanname -d `{pwd} $p | sed -n '
+		/^\/n\// {s|/n/(.)/|\1:\\\\|p; q;}
+		s|^|'^$emuroot^'|p;'
+	}
+}{
+	# host letters subst
+	hls="{ns | sed -n '/#U.+/ s|^bind -. ''#U(.+)'' (.*)|s\|\2\|\1/\|p|p'}
+
+	for p in $* {
+		cleanname -d `{pwd} $p | sed -n '
+		/^\/n\// {s|/n/local/|/|p; '^$hls^'; q;}
+		s|^|'^$emuroot^'|p;'
+	}
+}

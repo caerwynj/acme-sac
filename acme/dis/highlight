@@ -1,0 +1,21 @@
+#!/dis/sh
+
+if {! ~ $#* 2} {
+	echo usage: highlight filename lineno
+	exit
+}
+
+file = $1
+lineno = $2
+a := `{findwin $file}
+if {! ~ $#a 0} {
+	cd /mnt/acme/$a
+	<> addr {
+		echo -n $lineno > addr
+		echo 'dot=addr' > ctl
+		echo show > ctl 
+	}
+}{
+	plumb $file:$lineno
+}
+exit

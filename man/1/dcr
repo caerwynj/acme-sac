@@ -1,0 +1,23 @@
+.TH DCR 1
+.SH NAME
+dcr \- delete carriage returns
+.SH SYNOPSIS
+.B
+dcr
+.SH DESCRIPTION
+.B Dcr
+removes carriage returns from standard input and writes to standard output.
+It does not use buffered output and so is intended to be used with interactive
+programs on Windows host operating system.
+.SH EXAMPLES
+Run the windows cmd.exe interactively without carriage returns printed to standard output:
+.IP
+.EX
+os cmd >[2=1] | dcr
+.EE
+.SH SOURCE
+.B /appl/cmd/dcr.b
+.SH "SEE ALSO"
+.IR tr (1),
+.IR os(1)
+

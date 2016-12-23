@@ -1,0 +1,11 @@
+<../../../mkconfig
+
+DIRS=\
+	bin\
+	calendar\
+	debug\
+	irc\
+	mail\
+	wiki\
+
+<$ROOT/mkfiles/mksubdirs

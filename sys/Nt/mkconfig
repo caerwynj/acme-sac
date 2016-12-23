@@ -1,0 +1,42 @@
+ROOT=
+SYSHOST=Nt
+SYSTARG=$SYSHOST
+OBJTYPE=386
+
+OBJDIR=$SYSTARG/$OBJTYPE
+
+SHELLTYPE=	rc
+SHELLNAME=	rc
+HOSTMODEL=	Nt
+OSTARG=		Inferno
+
+DATA2S=		data2s
+NDATE=		date -n
+KSIZE=		size
+AWK=		awk
+
+
+TARGMODEL=	Nt
+TARGSHTYPE=	sh
+CPUS=		386 sparc mips power amd64
+
+O=		obj
+OS=		v851ok0q2t6
+
+AR=		9ar
+ARFLAGS=
+
+AS=		9a
+ASFLAGS=
+
+CC=		9c
+CFLAGS=	
+ANSICPP=
+
+LD=		9l
+LDFLAGS=
+
+SYSLIBS=
+
+YACC=		yacc
+YFLAGS=		-d

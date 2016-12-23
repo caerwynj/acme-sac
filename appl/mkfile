@@ -1,0 +1,12 @@
+<../mkconfig
+
+DIRS=\
+	charon\
+	cmd\
+	acme\
+	grid\
+	lib\
+	math\
+	svc\
+
+<$ROOT/mkfiles/mksubdirs

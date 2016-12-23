@@ -1,0 +1,78 @@
+.TH PIPEFS 4
+.SH NAME
+pipefs \- attach filters to a file system
+.SH SYNOPSIS
+.B pipefs
+[
+.B -a|-b
+] [
+.B -c
+] [
+.B -r
+.I command
+] [
+.B -w
+.I command
+]
+.I dir
+.I mountpoint
+.SH DESCRIPTION
+.I Pipefs
+acts as a filesystem layer above an existing name space,
+attaching filters to the files in the name space.
+.PP
+.I Pipefs
+makes the name space under
+.I dir
+visible at
+.IR mountpoint .
+The
+.B -a
+(or
+.BR -b )
+option causes the name
+space to be placed after (or before) the current
+contents of
+.IR mountpoint ;
+the default is to replace
+the current contents.  The
+.B -c
+option permits
+creation under
+.IR mountpoint .
+.PP
+Data that is read from
+(or written to) files made visible under
+.I mountpoint
+is filtered through
+.IR command ,
+specified using the
+.B -r
+(or
+.BR -w )
+option.  At least one
+.I command
+must be specified;
+.I pipefs
+will use
+.IR cat (1)
+as the
+other
+.IR command .
+.SH EXAMPLE
+To read / write encrypted files:
+.IP
+.EX
+(pipefs -c -r 'crypt -d -k secret'
+	-w 'crypt -k secret'
+	/encrypted/dir /n/decrypted)
+.EE
+.SH SOURCE
+.B /appl/cmd/pipefs.b
+.SH "SEE ALSO"
+.IR pipefile (1)
+.SH BUGS
+Not all error conditions are handled gracefully.
+.br
+The length of the original file, and not that of the filtered one, is returned in
+.IR sys-stat (2).

@@ -1,0 +1,90 @@
+load arg
+load std
+autoload=(std)
+
+
+fn awk {
+	os awk $*
+}
+
+fn 9c {
+	load arg
+	args := $*
+	flags=''
+	(arg
+		I+ {flags = $flags  -I ^ `{file2root $arg}}
+		D+ {flags = $flags -$opt ^ $arg}
+		'*' {echo unknown option $opt}
+		- $args
+	)
+	cwd=`{echo $emuroot ^ `pwd}
+	cc='gcc'
+	cflags=(
+		-m32
+		-O2
+		-c
+		-Wall
+		-Wno-parentheses
+		-Wno-missing-braces
+		-Wno-switch
+		-Wno-comment
+		-Wno-sign-compare
+		-Wno-unknown-pragmas
+		-fno-omit-frame-pointer
+		-I$cwd
+		-I$emuroot/sys/Linux/386/include
+		-I$emuroot/sys/include
+		-I$emuroot/sys/libinterp
+		-I$emuroot/sys/emu/port)
+	file=$1
+	ofile = `{basename $file .c}
+	ofile = `{basename $ofile .S}
+	ofile = `{echo $emuroot ^ `{cleanname -d `pwd $ofile^.o}}
+	file=`{cleanname -d `pwd $file}
+	file=`{echo $emuroot ^ $file}
+#	echo $cc -o $ofile $cflags $flags $file
+	os `{echo $cc -o $ofile $cflags $flags $file}
+}
+
+fn 9l {
+	ld=$cc
+	ldflags=( -m32 )
+#	syslibs=( -lm -lX11 -lXext)
+	args = $*
+	echo os $ld $ldflags  `{file2root $args} $syslibs
+	os `{echo $ld $ldflags  `{file2root $args} $syslibs }
+}
+
+fn file2root {
+	args = $*
+	for (i in $args) {
+		(if {~ $i '-*' } { # exclude libraries
+ 			echo $i
+		}
+		{! ~ $i '*.*'} { # and their arguments (names w/o dots -- i.e. -framework CoreFoundation, etc)
+			echo $i
+		}
+		{
+			i = `{cleanname -d `pwd $i}
+			echo $emuroot ^ $i
+		})
+	}
+}
+
+fn 9ar {
+	ar=ar
+	cwd=`{echo $emuroot ^ `pwd }
+	arflags=(-r)
+	file=$1
+	file=`{cleanname -d `pwd $file}
+	file=`{echo $emuroot ^ $file }
+	args = ${tl $*}
+#	echo os $ar $arflags $file  `{file2root $args}
+	os `{echo $ar $arflags $file `{file2root $args}}
+}
+
+fn svn {
+	args = ${tl $*}
+	os svn $1 `{file2root $args}
+}
+bind /sys/Linux/mkconfig /sys/mkconfig

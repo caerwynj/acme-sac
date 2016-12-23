@@ -1,0 +1,5 @@
+#!/dis/sh
+
+args := $*
+c=`{hp $args}
+os cmd /c start  '"\DummyTitle\"'  $"c

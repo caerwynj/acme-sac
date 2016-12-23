@@ -1,0 +1,19 @@
+#!/dis/sh.dis
+# prepends "http://" to google results, so happy plumbing! (or use htmlfmt -u)
+# queryvars: q,num,oe,num
+# gcmds: define,related,link,...
+load std
+
+x=$*
+if {~ $#x 0} {
+	echo gask [service] query
+	exit
+}
+
+if {~ ${hd $x} search images groups news scholar codesearch} {
+	srv=${hd $x}; x=${tl $x};
+}{
+	srv=search
+}
+q=`{echo $x | sed 's/ /+/g'}
+plumb -d web 'http://www.google.com/'^$srv^'?&oe=utf8&q='^$"q^'&' 

@@ -1,0 +1,16 @@
+load std
+
+prompt='% ' ''
+fn % {
+	$*
+}
+
+fn who {
+	ps | sed '/Broken/d
+	/Exiting/d
+	s% +[0-9]+ +[0-9]+ +([a-zA-Z0-9]+) +.*$%\1%' | sort | uniq
+}
+
+fn awk {
+	os awk $*
+}

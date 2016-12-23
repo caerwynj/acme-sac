@@ -1,0 +1,3 @@
+#!/dis/sh.dis -n
+
+grep -n $* *.[chsylbm] /dev/null

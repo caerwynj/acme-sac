@@ -1,0 +1,4 @@
+#!/dis/sh.dis
+x=$*
+q=`{echo $x | sed 's/ /+/g'}
+plumb -d web 'http://www.dict.org/bin/Dict?Form=Dict2&Database=*&Query='^$"q 

@@ -1,0 +1,84 @@
+WELCOME(1)                                                                              WELCOME(1)
+
+WELCOME
+          Acme is a programmer's editor: a rich system for working with
+          text-oriented applications.
+
+GETTING STARTED
+          Here is a very quick tour of Acme to help you get started. A
+          much more detailed explanation can be found in the acme(1) 
+          manual page and Rob Pike's paper, Acme: A User Interface for
+          Programmers. 
+
+          RIGHT click on manual references to read a manual page.  E.g.,
+          acme(1), cat(1), intro(1), and ls(1). A man page reference is an
+          example of a notation that in Acme is also part of the user
+          interface. 
+
+          Another example is a URL. Right-click the URL below to read the
+          Acme paper.
+          	http://cm.bell-labs.com/sys/doc/acme.html
+
+          Clicking on a single word with the MIDDLE mouse button will do
+          some action, such as a built in function or an external
+          command. The word New opens a new window. Try it now, click
+          the middle mouse button over the word New then close the
+          window by middle-clicking the word Del, in the top line of the
+          window.
+
+          A window can be moved  by dragging the top left corner of the
+          window. A column of windows can be moved by dragging the
+          top left corner of the column.
+
+          Dragging the mouse while holding down the middle mouse
+          button executes the selected text when you release the button.
+          Try it on the line below.
+          	lookman intro
+
+          Pathnames are a fundamental notation in acme. Right-click on
+          pathnames to open a window on the file or directory, e.g.
+          	/usr/inferno
+
+          Acme is a multi-tasking system; each process has its own
+          namespace of visible files. The namespace can be modified with
+          bind(1) and mount commands. Change the acme namespace by
+          prefixing mount and bind commands with 'Local'.  For example,
+          mount the Plan 9 source code server by middle-selecting this
+          text then right-click the pathname /n/sources.
+          	Local mount -A tcp!sources.cs.bell-labs.com!9fs /n/sources
+
+          Acme is also a shell and comes with a set of Unix-like
+          commands. Commandlines can be typed anywhere and
+          executed by selecting them and clicking on the selected text
+          with the middle mouse button. If you need to open a terminal
+          window middle click on the command: win
+
+          Try executing the command line below by selecting it with the
+          middle mouse button.
+          	ps | wc
+
+          You'll probably want to work on files in your host system.  The
+          local drives should already be mounted below /n, for example, 
+          on Nt see /n/C on Linux or MacOSX see /n/local
+
+WIKI
+          You can read and edit the Inferno or Plan 9 wikis. Mount the 
+          Plan 9 wiki filesystem,
+          	Local mount -A tcp!plan9.bell-labs.com!wiki /mnt/wiki
+          Then run the wiki browser,
+          	Wiki
+
+IRC
+          Join other inferno users on #inferno IRC channel. Run the
+          command below
+          	airc -n acmeuser -j '#inferno' irc.freenode.net
+
+WEB
+          You can read web pages in acme.  In fact this is a nice
+          demonstration of the power of plain text as a user interface.
+          Right-click on the following link
+          	http://caerwyn.com/ipn
+          You might find some scripts on the web page that are directly
+          runnable from inside acme.
+
+                                                Inferno Manual

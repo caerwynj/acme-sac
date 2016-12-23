@@ -1,0 +1,223 @@
+.TH MKFS 8
+.SH NAME
+mkfs, mkext \- archive or update a file system
+.SH SYNOPSIS
+.B disk/mkfs
+.RB [ -aprvxS ]
+.RB [ -d
+.IR dest ]
+.RB [ -n
+.IR name ]
+.RB [ -s
+.IR source ]
+.RB [ -u
+.IR users ]
+.RB [ -z
+.IR n ]
+.RB [ -G
+.IR group ]
+.RB [ -U
+.IR user ]
+.I proto ...
+.PP
+.B disk/mkext
+.RB [ -d
+.IR name ]
+.RB [ -f ]
+.RB [ -h ]
+.RB [ -T ]
+.RB [ -u ]
+.RB [ -v ]
+[
+.I file ...
+]
+.SH DESCRIPTION
+.I Mkfs
+copies files from the file tree
+.I source
+(default
+.BR / )
+to a
+.B kfs
+file system (see
+.IR kfs (4))
+assumed to be mounted on
+.I dest
+(default:
+.BR /n/kfs ).
+The
+.I proto
+files are read,
+and any files specified in them that are out of date are copied to
+.IR dest .
+See
+.IR proto (6)
+for the description of file system prototype files.
+.PP
+.I Mkfs
+by default copies only those files that are out of date.
+Such a file is first copied into a temporary
+file in the appropriate destination directory
+and then moved to the destination file.
+Files in the
+.I kfs
+file system that are not specified in the
+.I proto
+file
+are not updated and not removed.
+.PP
+The options to
+.I mkfs
+are:
+.TF "-s source"
+.TP
+.B -a
+Instead of writing to a
+.B kfs
+file system, write an archive file to standard output, suitable for
+.IR mkext .
+All files in
+.I proto
+are archived,
+not just those out of date.
+.TP
+.B -x
+For use with
+.BR -a ,
+this option writes a list of file names, dates, and sizes to standard output
+rather than producing an archive file.
+.TP
+.BI -n " name"
+Use
+.BI kfs. name .cmd
+as the name of the command file for the
+.IR kfs (4)
+assumed to be mounted on
+.IR dest .
+.TP
+.B -p
+Update the permissions of a file even if it is up to date.
+.TP
+.B -r
+Copy all files.
+.TP
+.BI -s " source"
+Copy from files rooted at the tree
+.IR source .
+.TP
+.BI -u " users"
+Before copying any other file, copy file
+.I users
+into
+.IB dest /adm/users ,
+and if the
+.B -n
+option was given, also issue the
+.IR kfs (4)
+command
+.B users
+to update
+.IR kfs 's
+own user list.
+.TP
+.B -v
+Print the names of all of the files as they are copied.
+.TP
+.BI -z " n"
+Copy files assuming
+.I kfs
+is using a block size of
+.I n
+bytes
+(default 1024).
+If a block contains only 0-valued bytes, it is not copied.
+.TP
+.B -S
+For use with the
+.B -d
+option,
+make owner and group of each file copied match the original.
+.TP
+.BI -G " group"
+Force all files copied to have the given
+.IR group .
+.TP
+.BI -U " user"
+Force all files copied to be owned by the given
+.IR user .
+.PD
+.PP
+.I Mkext
+unpacks an archive created by the
+.B -a
+option of
+.IR mkfs ,
+read from the standard input.
+If one or more files are specified on the command line,
+only those files are unpacked.
+If a
+.I file
+is a directory,
+all files and subdirectories of that directory are also unpacked.
+When a file is unpacked, the entire path is created if it
+does not exist.
+If no files are specified, the entire archive is unpacked;
+in this case, missing intermediate directories are not created.
+The options are:
+.TP
+.BI -d " dir"
+Treat
+.I dir
+(default
+.LR / )
+as the root directory when unpacking the archive.
+.TP
+.B -h
+Print headers for the files on standard output
+instead of unpacking the files.
+.TP
+.B -T
+Restore the modification times of the files.
+.TP
+.B -u
+Set the owners of the files created to correspond to
+those in the archive and restore the modification times of the files.
+.TP
+.B -v
+Print the names and sizes of files as they are extracted.
+.SH EXAMPLES
+.PP
+Make an archive to establish a new file system
+(assuming that the output file
+.B arch
+is not referenced by
+.BR proto ):
+.IP
+.EX
+bind '#U' /n/local
+disk/mkfs -a -s /n/local proto > arch
+.EE
+.PP
+Unpack that archive on another machine:
+.IP
+.EX
+mount tcp!server /n/remote
+disk/mkext -u -d /n/remote < arch
+.EE
+.SH FILES
+.TF /lib/proto/portproto
+.TP
+.B /lib/proto
+directory of prototype files.
+.TP
+.B /lib/proto/all
+contains a single + (archive any directory structure)
+.SH SOURCE
+.B /appl/cmd/disk/mkfs.b
+.br
+.B /appl/cmd/disk/mkext.b
+.SH "SEE ALSO"
+.IR fs (1),
+.IR kfs (4),
+.IR proto (6),
+.IR kfscmd (8)

@@ -1,0 +1,78 @@
+load arg
+load std
+autoload=std
+noexe=()
+#noexe=-E
+
+fn 9c {
+	load arg
+	args := $*
+	flags=''
+	(arg
+		I+ {flags = $flags  -I ^ $arg}
+		D+ {flags = $flags -$opt ^ $arg}
+		'*' {echo unknown option $opt}
+		- $args
+	)
+	cc=cl
+	cwd=$emuroot ^ `pwd
+	cflags=(-c 
+		-nologo
+		-W3 
+		-Zi
+		-MT
+		'-D_WIN32_WINNT=0x0400'
+		-I$cwd
+		-I$emuroot\sys\Nt\386\include
+		-I$emuroot\sys\include
+		-I$emuroot\sys\libinterp
+		-I$emuroot\sys\emu\port
+		-Fo$cwd\
+		)
+	file=$1
+	os $noexe -d $cwd $cc $cflags $flags $file | dcr
+}
+
+fn 9l {
+	ld=link
+	ldflags=(-nologo
+		-incremental:no
+		-map
+		$LDFLAGS
+		)
+	syslibs=(
+			wsock32.lib 
+			user32.lib 
+			gdi32.lib 
+			advapi32.lib 
+			winmm.lib 
+			mpr.lib)
+	
+	cwd=$emuroot ^ `pwd
+	file=$1
+	file=`{cleanname -d `pwd $file}
+	file=`{echo $emuroot ^ $file |sed 's/\//\\/g'}
+	args = ${tl $*}
+	os $noexe -d $cwd $ld $ldflags -out:$file $args $syslibs |dcr
+}
+
+fn file2root {
+	args = $*
+	for (i in $args) {
+		i = `{cleanname -d `pwd $i}
+		echo $emuroot ^ $i |sed 's/\//\\/g'
+	}
+}
+
+fn 9ar {
+	ar=link /lib
+	cwd=$emuroot ^ `pwd
+	arflags=-nologo
+	file=$1
+	file=`{cleanname -d `pwd $file}
+	file=`{echo $emuroot ^ $file |sed 's/\//\\/g'}
+	args = ${tl $*}
+	os $noexe -d $cwd $ar $arflags -out:$file $args | dcr
+}
+
+bind /sys/Nt/mkconfig /sys/mkconfig

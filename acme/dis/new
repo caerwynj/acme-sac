@@ -1,0 +1,14 @@
+#!/dis/sh
+
+load std
+
+id := `{cat /mnt/acme/new/ctl}
+wdir := /mnt/acme/^${hd $id}
+cmd := $*
+if {~ $#cmd 0} {
+	cmd = cat
+}
+
+echo 'name '^`{pwd}^/-^`{basename ${hd $cmd}} >$wdir/ctl
+$cmd >$wdir/body >[2=1]
+echo clean >$wdir/ctl

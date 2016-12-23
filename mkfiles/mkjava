@@ -1,0 +1,8 @@
+
+%.class: %.java
+	javac $stem.java
+
+all:V: $TARG
+
+clean:V:
+	rm -f *.class

@@ -1,0 +1,18 @@
+<../../../mkconfig
+
+TARG=\
+	css.dis\
+	xpointers.dis\
+	uris.dis\
+
+MODULES=
+
+SYSMODULES= \
+	sys.m\
+	bufio.m\
+	css.m\
+	xpointers.m\
+
+DISBIN=$ROOT/dis/lib/w3c
+
+<$ROOT/mkfiles/mkdis

@@ -1,0 +1,84 @@
+.TH PIPEFILE 1
+.SH NAME
+pipefile \- attach filter to file in name space
+.SH SYNOPSIS
+.B pipefile
+[
+.B -d
+] [
+.B -r
+.I command
+] [
+.B -w
+.I command
+]
+.I file
+.SH DESCRIPTION
+.I Pipefile
+uses
+.IR sys-bind (2)
+to attach a pair of pipes to
+.IR file ,
+using them to
+interpose filter
+.I commands
+between the true file and the simulated file that subsequently
+appears in the name space.
+Option
+.B -r
+interposes a filter that will affect the data delivered to programs that read from
+.IR file ;
+.B -w
+interposes a filter that will affect the data written by programs to
+.IR file .
+At least one
+.I command
+must be specified;
+.I pipefile
+will insert a
+.IR cat (1)
+process in the other direction.
+.PP
+After
+.I pipefile
+has been run, the filters are established for programs that subsequently
+open the
+.IR file ;
+programs already using the
+.I file
+are unaffected.
+.PP
+.I Pipefile
+opens the
+.I file
+twice, once for each direction.  If the
+.I file
+is a single-use device, use the
+.B -d
+flag to specify that the file is to be opened once, in
+.B ORDWR
+mode.
+.SH EXAMPLE
+To record the history of shell commands:
+.EX
+.IP
+pipefile -r 'tee -a '$home/sh.history /dev/cons
+sh -i </dev/cons >/dev/cons >[2=1]
+.EE
+.SH SOURCE
+.B /appl/cmd/pipefile.b
+.SH SEE ALSO
+.IR pipefs (4)
+.SH BUGS
+The I/O model of
+.I pipefile
+is peculiar; it doesn't work well on plain files.
+It is really intended for use with continuous devices such as
+.I /dev/cons
+and
+.IR /dev/keyboard .
+.PP
+If the program using the file managed by
+.I pipefile
+exits, the filter will see EOF and exit, and the file will be unusable
+until the name space is repaired.

@@ -1,0 +1,9 @@
+#!/dis/sh
+
+page=`{pwd}^/$1
+
+>/mnt/acme/$acmewin/ctl {
+echo name $page
+echo clean
+echo get
+}

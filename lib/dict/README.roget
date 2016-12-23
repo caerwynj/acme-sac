@@ -1,0 +1,4 @@
+To get the Project Gutenberg Roget's thesaurus use
+
+	mount -A tcp!sources.cs.bell-labs.com!9fs /n/sources
+	cp /n/sources/extra/roget/* /lib/dict

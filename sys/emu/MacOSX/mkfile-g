@@ -1,0 +1,62 @@
+_SYSTARG=$SYSTARG
+_OBJTYPE=$OBJTYPE
+<../../mkconfig
+SYSTARG=$_SYSTARG
+OBJTYPE=$_OBJTYPE
+
+#Configurable parameters
+
+CONF=emu			#default configuration
+CONFLIST=emu
+CLEANCONFLIST=
+
+INSTALLDIR=/sys/$SYSTARG/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<| sh ../port/mkdevlist < $CONF	#sets $IP, $DEVS, $PORT, $LIBS
+
+OBJ=\
+	asm-$OBJTYPE.$O\
+	os.$O\
+	$CONF.root.$O\
+	lock.$O\
+	$DEVS\
+	$PORT\
+
+HFILES=\
+
+CFLAGS=\
+	'''-DROOT="'.'"'''\
+	-DEMU -I. -I../port\
+	-I../../$SYSTARG/$OBJTYPE/include\
+	-I../../include\
+	-I../../libinterp\
+	-I/usr/X11R6/include\
+	$CTHREADFLAGS $CFLAGS $EMUOPTIONS\
+
+KERNDATE=`{$NDATE}
+
+LDFLAGS=$LDFLAGS -L/usr/X11R6/lib
+
+SYSLIBS= \
+	-lm\
+#	-lpthread\
+#	-framework CoreFoundation\
+#	-framework IOKit\
+#	-framework ApplicationServices\
+
+default:V:	$O.$CONF
+
+
+$O.$CONF:	$OBJ $CONF.c $CONF.root.h $LIBNAMES
+	$CC $CFLAGS -DKERNDATE=$KERNDATE $CONF.c
+	$LD $LDFLAGS -o $target $OBJ $CONF.$O $LIBFILES $SYSLIBS
+
+install:V: $O.$CONF
+	cp $O.$CONF $INSTALLDIR/$CONF
+
+<../port/portmkfile
+
+ipif.c:N:	../FreeBSD/ipif.c
+devfs.c:N:	../port/devfs-posix.c

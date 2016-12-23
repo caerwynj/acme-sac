@@ -1,0 +1,11 @@
+#!/dis/sh
+
+if {~ $#* 0} {
+	echo usage: findwin filename
+	exit
+}
+file = $1
+< /mnt/acme/index getlines {
+	(w x y z zz f rest) := ${split ' ' $line }
+	if {~ $f $file} {echo $w; exit}
+}

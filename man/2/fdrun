@@ -1,0 +1,73 @@
+.TH FDRUN 2
+.SH NAME
+fdrun \-
+run a shell command with I/O redirection.
+.SH SYNOPSIS
+.EX
+include "sys.m";
+include "draw.m";
+include "fdrun.m";
+fdrun := load FDrun FDrun->PATH;
+
+init: fn();
+run: fn(ctxt: ref Draw->Context, argv: list of string,
+	spec: string, sfds: array of ref Sys->FD, result: chan of string): int;
+.EE
+.SH DESCRIPTION
+.B FDrun
+runs a
+.IR sh (1)
+command, redirecting some of its file descriptors
+to user-specified files.
+.B Init
+must be called first, to initialise the module.
+.B Run
+invokes the command given by
+.I argv
+(the first element being the name of the command)
+using the graphics context
+.IR ctxt .
+.I Spec
+specifies the redirections that should take place,
+each character specifying the redirection for a
+particular file descriptor (\f5spec[\fIi\fP]\fR gives
+the specification for file descriptor
+.IR i ).
+If the character is a decimal digit, say
+.IR d ,
+the file is redirected to
+.IR sfds [ d ];
+if it is the character
+.BR x ,
+it is redirected to
+.BR /dev/null ;
+if the character is a hyphen (\f5-\fP),
+no redirection will take place.
+.PP
+.B Run
+returns without waiting for the
+command to finish (it returns -1
+if the specification was invalid). When
+the command has terminated, its exit
+status will be sent on
+.IR result .
+.SH EXAMPLE
+Compile a Limbo program and save any errors or warnings:
+.EX
+fdrun := load FDrun FDrun->PATH;
+fdrun->init();
+sys->pipe(p := array[2] of ref Sys->FD);
+result := chan of string;
+fdrun->run(nil, "limbo"::"-gw"::"myfile.b"::nil, "x00", array[] of {p[1]}, result);
+efd := p[0];
+p = nil;
+\&... read any output from efd until EOF
+r := <-result;
+if(r != nil)
+	sys->print("compilation failed (%s)\n", r);
+.EE
+.SH SOURCE
+.B /appl/lib/fdrun.b
+.SH SEE ALSO
+.IR sh (1),
+.IR sh (2)

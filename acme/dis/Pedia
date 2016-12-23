@@ -1,0 +1,4 @@
+#!/dis/sh.dis
+x=$*
+q=`{echo $x | sed 's/ /+/g'}
+plumb -d web 'http://en.wikipedia.org/w/index.php?search='^$"q 

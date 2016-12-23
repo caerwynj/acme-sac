@@ -1,0 +1,25 @@
+<../../../mkconfig
+
+TARG=\
+	wiki.dis\
+	wikifs.dis\
+
+MODULES=\
+	wiki.m\
+
+SYSMODULES=\
+	bufio.m\
+	draw.m\
+	daytime.m\
+
+DISBIN=$ROOT/dis
+
+
+<$ROOT/mkfiles/mkdis
+
+install:V:	$BINTARG
+%.install:V:	$DISBIN/%
+%.installall:V:	$DISBIN/%
+
+$DISBIN/%:	%.sh
+	cp $stem.sh $target && chmod a+rx $target

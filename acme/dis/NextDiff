@@ -1,0 +1,20 @@
+#!/dis/sh
+
+cwd = `pwd
+cd /mnt/acme/$acmewin
+{
+	echo -n 'addr=dot' >ctl
+	(a b) := `cat 
+	echo -n '/^[^\-<>].*\n/' > addr
+	echo -n 'dot=addr' > ctl
+	echo -n show > ctl
+	(f1 cmd f2) := `{getline data}
+	(f1 l1) = ${split ':' $f1}
+	(f2 l2) = ${split ':' $f2}
+	f1 = `{cleanname -d $cwd $f1}
+	f2 = `{cleanname -d $cwd $f2}
+	if {~ $cmd a} {l1 = $l1^'+#0'}
+	if {~ $cmd d} {l2 = $l1^'+#0'}
+	highlight $f1 $l1
+	highlight $f2 $l2
+} <> addr

@@ -1,0 +1,12 @@
+#!/dis/sh
+
+pctl forkns
+builtin cd $"1
+args:=`{ls -drp [0-9]*}
+*=$args
+diff  index.txt $1/index.txt | sed 's/^(.*)index.txt:(.*)index.txt:/\1current:\2:/g'
+while {! ~ $#args 0 1} {
+	*=$args
+	diff  $1/index.txt $2/index.txt | sed 's/^(.*)index.txt:(.*)index.txt:/\1:\2:/g'
+	args=${tl $args}
+}

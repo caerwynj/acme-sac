@@ -1,0 +1,4 @@
+#!/bin/sh
+echo 9c $*
+gcc -O2 -c -Wall -Wno-parentheses -Wno-missing-braces -Wno-switch -Wno-comment -Wno-sign-compare -Wno-unknown-pragmas -fno-omit-frame-pointer -I"$ACME_HOME/sys/include" -I"$ACME_HOME/sys/Linux/386/include" -I"$ACME_HOME/sys/libinterp" -c $*
+

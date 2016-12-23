@@ -1,0 +1,40 @@
+acme-fg-text-0='#000000'
+acme-bg-text-0='#FFFFFF'
+
+#button 1 col
+acme-fg-text-1='#FFFFFF'
+acme-bg-text-1='#000000'
+
+#button 2 col
+acme-fg-text-2='#FFFFFF'
+acme-bg-text-2='#FF0000'
+
+# button 3 col
+acme-fg-text-3='#000000'
+acme-bg-text-3='#999999'
+
+#tags
+acme-fg-tag-0='#000000'
+acme-bg-tag-0='#FFFFFF'
+
+acme-fg-tag-1='#FFFFFF'
+acme-bg-tag-1='#000000'
+
+# top of tag border 
+acme-bord-col-0='#000000'
+
+# column separator color
+acme-bord-row-0='#000000'
+
+# separator between tag and text body
+acme-bord-tag-0='#000000'
+
+# scroll bar color bg
+acme-bord-text-0='#AAAAAA'
+
+# modified button color
+acme-mod-but-0='#333333'
+
+acme-font=/fonts/lucidasans/unicode.8.font
+acme-Font=/fonts/lucm/unicode.9.font
+

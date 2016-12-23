@@ -1,0 +1,16 @@
+#!/dis/sh
+
+load expr
+
+name=$%
+current=`{basename $name}
+currentx=`{grep -n '^'$current'([      ]|$)' index | sed 's/:.*//'}
+
+pagex=${expr $currentx 1 -}
+if{~ $pagex 0}{
+       echo no such page
+       exit 0
+}
+page=`{sed -n $pagex^p index}
+
+Slide $page

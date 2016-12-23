@@ -1,0 +1,88 @@
+dev
+	root
+	cons
+	env
+	mnt
+	pipe
+	prog
+	prof
+	srv
+	dup
+	ssl
+#	cap
+	fs
+	cmd	cmd
+	indir
+
+	draw
+	pointer
+	snarf
+	wmsz
+
+	ip	ipif-posix ipaux
+#	eia
+#	audio	audio
+	mem
+
+lib
+	interp
+	math
+	draw
+
+	memlayer
+	memdraw
+	keyring
+	sec
+	mp
+
+	9
+
+link
+
+mod
+	sys
+	draw
+
+	math
+	srv	srv
+	keyring
+
+port
+	alloc
+	cache
+	chan
+	dev
+	dial
+	dis
+	discall
+	env
+	error
+	errstr
+	exception
+	exportfs
+	inferno
+	latin1
+	main
+	parse
+	pgrp
+	print
+	proc
+	qio
+	random
+	sysfile
+	uqid
+
+code
+
+init
+	emuinit
+
+root
+	/dev	/
+	/fd	/
+	/prog	/
+	/net	/
+	/net.alt	/
+	/chan	/
+	/nvfs	/
+	/env	/

@@ -1,0 +1,244 @@
+.TH MAN 1
+.SH NAME
+man, wm/man, man2html, man2txt, lookman, sig \-
+print or find manual pages
+.SH SYNOPSIS
+.B man
+[
+.B -b
+] [
+.B -n
+] [
+.B -p
+] [
+.B -S
+] [
+.B -w
+]
+[
+.I section ...
+]
+.I title ...
+.br
+.B man -f
+.I file ...
+.br
+.B wm/man
+[
+.I section ...
+]
+.I title ...
+.br
+.B wm/man -f
+.I file ...
+.br
+.B man2html
+[
+.BI -h " header"
+] [
+.BI -i " initial"
+] [
+.BI -t " trailer"
+]
+.I file
+[
+.I section
+]
+.br
+.B man2txt
+[
+.B -p
+.I width
+]
+[
+.I file ...
+]
+.br
+.B lookman
+[
+.B -f
+]
+.I keyword ...
+.PP
+.B sig
+.I function ...
+.SH DESCRIPTION
+Both
+.I man
+and
+.BI wm/ man
+locate entries in this manual and display them.
+The pages for entries named
+.I title
+within each specified
+.IR section
+are displayed.
+If no sections are specified, matching pages
+from all sections are printed.
+Sections are given by number.
+.PP
+The
+.B -f
+option to
+.I man
+and
+.I wm/man
+prevent lookup in the manual index.
+Instead, the remaining arguments are treated as
+filenames.
+.I Man
+processes each file in turn.
+.I Wm/man
+adds each file to its page history and displays the first document in the list.
+.PP
+The
+.I man
+command prints the manual pages as formatted plain text to standard output.
+Manual pages are written using Plan9
+.I "troff -man"
+macros for their markup and so
+some detail is lost in conversion to plain text.
+.BI Wm/ man
+displays the pages in a graphical Wm window, providing a more faithful
+reproduction of the intended layout.
+.PP
+.I Man
+also accepts the following options:
+.TP
+.B -b
+Print the pages and send them to
+.IR plumber (1)
+for display in an editor.
+.TP
+.B -n
+Use
+.I man2txt
+to format the pages (default).
+.TP
+.B -p
+Display the pages using
+.IR wm/man .
+.TP
+.B -S
+Do not search the manual indices for the names: only print pages whose file names match the
+.IR titles .
+.TP
+.B -w
+Print the names of the man page source files instead of formatting them.
+.PP
+.I Man2html
+converts
+.B "troff -man"
+macro markup to an approximation in HTML on standard output.
+Only one file is processed at a time.
+It is assumed the input
+.I file
+is a manual page, in the given
+.I section
+(default: 1).
+The optional
+.I header
+string replaces the default header
+.BR "<HTML><HEAD>" .
+The optional
+.I initial
+text will appear immediately after
+.BR "<BODY>" .
+The optional
+.I trailer
+string replaces the default trailer
+.BR "</BODY></HTML>" .
+.PP
+.I Man2txt
+converts
+.B "troff -man"
+macro markup
+to plain text.
+Each file is processed separately.
+If no arguments are given, text from standard input is processed.
+The converted text is written to standard output.
+The
+.B -p
+option to
+.I man2txt
+specifies the page width in characters.
+.PP
+.I Lookman
+finds the manual pages, in any section, that
+contain all of the
+.I keywords
+given as arguments, and prints
+.I man
+commands and manual references for them, one per line.
+In a
+.IR wm-sh (1)
+window,
+any of the
+.I man
+commands can be selected with mouse button 2 and
+sent
+as a command; a manual reference can simply be
+.IR plumb (1)'d
+using mouse button 3.
+The
+.B -f
+option causes
+.I lookman
+just to list the file names.
+.PP
+.I Sig
+prints the type signature \- parameters and return types \- of
+each
+.I function
+found in section 2 of this manual.
+.SH FILES
+.TF /man/1/INDEX
+.TP
+.B /man/?/*
+Source files of manual pages.
+.TP
+.B /man/1/man
+The source file for this manual page.
+.TP
+.B /man/?/INDEX
+Used by
+.I man
+and
+.BI wm/ man
+to locate the source file containing a particular title.
+.TP
+.B /man/index
+The
+.I lookman
+index.
+.SH SOURCE
+.B /appl/wm/man.b
+.br
+.B /dis/man
+.IR sh (1)
+script
+.br
+.B /appl/cmd/man2txt.b
+.br
+.B /dis/lookman
+.IR sh (1)
+script
+.br
+.B /dis/sig
+.IR sh (1)
+script
+.br
+.B /appl/lib/parseman.b
+.SH "SEE ALSO"
+.IR wm (1)
+.SH BUGS
+.I Man2txt
+only knows about
+.I "troff -man"
+macros.
+Other troff macro packages or output from preprocessors
+such as
+.I pic
+or
+.I tbl
+will not be presented correctly.

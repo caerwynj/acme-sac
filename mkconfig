@@ -1,0 +1,3 @@
+# In limbo mk none of this is actually used.
+ROOT=
+SHELLTYPE=rc

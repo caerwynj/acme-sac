@@ -1,0 +1,3 @@
+#!/dis/sh
+
+sed -n '/broke/s/^ +([0-9][0-9]*) +(.*)/echo kill >\/prog\/\1\/ctl # \2/p' /prog/*/status

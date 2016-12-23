@@ -1,0 +1,28 @@
+<../../mkconfig
+
+DIRS=\
+	convcs\
+	crypt\
+	ecmascript\
+	encoding\
+	ida\
+	spki\
+	w3c\
+
+SRC=`{ls *.b}
+TARG=${SRC:%.b=%.dis}
+
+MODULES=
+SYSMODULES=
+DISBIN=/dis/lib
+
+</mkfiles/mkdis
+</mkfiles/mksubdirs
+
+$DISBIN/arg.dis: arg.dis
+	rm -f $DISBIN/arg.dis && cat arg.dis > $DISBIN/arg.dis
+
+$DISBIN/readdir.dis: readdir.dis
+	rm -f $DISBIN/readdir.dis && cat readdir.dis > $DISBIN/readdir.dis
+	
+<| sh -c '{grep ''^include'' *.b | sed ''s/\.b:/\.dis:/;s/include[ 	]+"/\/module\//;s/";//''}'

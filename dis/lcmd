@@ -1,0 +1,23 @@
+#!/dis/sh
+
+load std expr string
+pctl forkns
+args := $*
+s := sh -c ${quote $"args}
+mkdir -p /tmp/lpipe
+bind '#|' /tmp/lpipe
+
+{
+echo ${expr ${len $"s} 1 + }  >/fd/0;  
+echo $s >/fd/0; 
+export / /fd/0
+} <>/tmp/lpipe/data    &
+
+os -d $emuroot Acme -c0  sh -c '
+mkdir -p /tmp/pipes;
+mkdir -p /n/client;
+bind  ''#|'' /tmp/pipes; 
+cat /tmp/pipes/data > /dev/hoststdout& 
+cat /dev/hoststdin > /tmp/pipes/data& 
+auxi/rstyxd <>/tmp/pipes/data1 >[2] /dev/null;  
+echo halt > /dev/sysctl'  </tmp/lpipe/data1 >/tmp/lpipe/data1

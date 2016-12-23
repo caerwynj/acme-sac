@@ -1,0 +1,10 @@
+win
+new command ...
+aspell file
+adiff file1 file2
+adict -d oed
+
+
+os odbc < /dev/null
+Local mount -A tcp!localhost!6700 /n/odbc
+Sql -s myodbc -u user -p passwd

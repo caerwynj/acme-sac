@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo 9l $*
+gcc -lm -lX11 -lXext -lpthread $*

@@ -1,0 +1,16 @@
+#!/dis/sh
+# http://groups.google.com/group/comp.os.plan9/msg/06552626b83aad08
+
+load std
+
+args := $*
+
+id := `{findwin '*' ^ ${hd $args} ^ '*' }
+
+if {~ $#id 0} {raise 'no match for pattern'}
+
+if {! ~ $#id 1} {raise 'ambiguous pattern'}
+
+if {~ `{wc -w /mnt/acme/$id/rdsel} 0} {raise 'no selection'}
+
+sh  /mnt/acme/$id/rdsel

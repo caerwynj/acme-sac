@@ -1,0 +1,58 @@
+LICENCE
+NOTICE
+Acme.exe
+startrc
+acme
+	dis
+		+
+	wiki
+		+
+dis
+	+
+fonts
+	LICENCE
+	lucidasans
+		euro.8.font
+		lsr.14
+		NOTICE
+	lucm
+		+
+	misc
+		+
+lib
+	convcs
+		+
+	keyboard
+	legal
+		+
+	ndb
+		+
+	sh
+		+
+	unicode
+	unidata
+		+
+	units
+	yaccpar
+locale
+	timezone
+mnt
+	acme
+	arch
+	factotum
+	keys
+	registry
+	wiki
+	wm
+	wsys
+n
+tmp
+usr
+	inferno
+		charon
+			*
+		keyring
+		lib
+			*
+		namespace
+		README

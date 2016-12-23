@@ -1,0 +1,251 @@
+#!/dis/sh
+# http://cvs.savannah.gnu.org/viewvc/emacs/emacs/lisp/play/blackbox.el?view=markup
+load std
+load expr
+
+fn msg{
+	echo blackbox: $*
+}
+
+# rand(mod): a random number between 0 and mod-1
+subfn rand{
+	mod := $1
+	r := `{read 1 </dev/random | sum /fd/0}
+	result = ${expr 16r${hd $r} $mod %}
+}
+
+# a random point within the blackbox
+subfn randpt{
+	result = ${expr ${rand 8} 1 +} ${expr ${rand 8} 1 +}
+}
+
+# convert a character address to a point
+subfn topt{
+	addr := $1
+	result = ${expr $addr 21 % 2 /} ${expr $addr 21 /}
+}
+
+# convert a point (x y) to a compound address of n characters
+subfn toaddr{
+	(x y n) := $*
+	q0 := ${expr $y 21 x $x 2 x +}
+	q1 := ${expr $q0 $n +}
+	result = '#'$q0',#'$q1
+}
+
+# replace n characters at (x y) with s
+fn mark{
+	(x y s n) := $*
+	echo -n ${toaddr $x $y $n} >$wdir/addr
+	echo -n $s >$wdir/data
+	echo clean >$wdir/ctl
+}
+
+# ismember(ax ay l): true if (ax ay) is a member of l
+fn ismember{
+	(ax ay l) := $*
+	(x y) := ()
+	stat := no
+	while{ntest $#l}{
+		(x y l) = $l
+		if{and {~ $ax $x} {~ $ay $y}}{
+			stat = ()
+			raise break
+		}
+	}
+	status $stat
+}
+
+# del(ax ay l): delete (ax ay) from l
+subfn del{
+	(ax ay l) := $*
+	(x y) := ()
+	while{ntest $#l}{
+		(x y l) = $l
+		if{and {~ $ax $x} {~ $ay $y}}{
+			result = ($result $l)
+			raise break
+		}{
+			result = ($x $y $result)
+		}
+	}
+}
+
+# given l1 and l2, mark the points unique in l1 with c
+subfn comm-2{
+	(s1 s2 c) := $*
+	l1 := ${split ' ' $s1}
+	l2 := ${split ' ' $s2}
+	(x y) := ()
+	result = 0
+	while{ntest $#l1}{
+		(x y l1) = $l1
+		if{! ismember $x $y $l2}{
+			mark $x $y $c 1
+			result = ${expr $result 1 +}
+		}
+	}
+}
+
+fn drawbox{
+	echo -n , >$wdir/addr
+	echo -n >$wdir/data
+
+	echo '  · · · · · · · ·   ' >$wdir/body
+	for i in b l a c k b o x {
+		echo '· - - - - - - - - · ' >$wdir/body
+	}
+	echo '  · · · · · · · ·   ' >$wdir/body
+	echo clean >$wdir/ctl
+}
+
+# hide 4 balls in distinct random points
+fn hideballs{
+	for i in b a l l {
+		b := ${randpt}
+		while {ismember $b $balls}{
+			b = ${randpt}
+		}
+		balls = ($b $balls)
+	}
+}
+
+fn iscorner{
+	(x y) := $*
+	and (
+	 	{or {~ $x 0}{~ $x 9}}
+	 	{or {~ $y 0}{~ $y 9}}
+	)
+}
+
+fn isout{
+	(x y) := $*
+	or {~ $x 0}{~ $x 9}{~ $y 0}{~ $y 9}
+}
+
+subfn delta{
+	n := $1
+	if{~ $n 0}{
+		result = 1
+	}{~ $n 9}{
+		result = -1
+	}{
+		result = 0
+	}
+}
+
+fn event{
+	if{~ $1$2 MX}{
+		handlex ${topt $3}
+	}{~ $1$2 Mx}{
+		if{~ $9 Quit}{
+			echo delete >$wdir/ctl
+			exit
+		}{~ $9 NewGame}{
+			newgame
+		}{~ $9 Score}{
+			score
+		}{
+			echo $1$2$3 $4 >$wdir/event
+		}
+	}
+}
+
+fn handlex{
+	pt := $*
+	if{iscorner $pt}{
+		# do nothing
+	}{isout $pt}{
+		traceray $pt
+	}{
+		if{ismember $pt $guess}{
+			mark $pt - 1
+			guess = ${del $pt $guess}
+		}{
+			mark $pt O 1
+			guess = ($pt $guess)
+		}
+	}
+}
+
+fn traceray{
+	(x y) := $*
+	target := ${traceray0 true $x ${delta $x} $y ${delta $y}}
+	if{~ $target hit}{
+		mark $x $y H 1
+		score = ${expr $score 1 +}
+	}{and {~ ${hd $target} $x} {~ ${tl $target} $y}}{
+		mark $x $y R 1
+		score = ${expr $score 1 +}
+	}{
+		detour = ${expr $detour 1 +}
+		if{~ $detour 100}{
+			msg you''''ve run out of rays.
+		}{
+			n := 1
+			if{~ ${expr $detour 9 gt} 1}{
+				n = 2
+			}
+			mark $x $y $detour $n
+			mark $target $detour $n
+			score = ${expr $score 2 +}
+		}
+	}
+}
+
+subfn traceray0{
+	(first x dx y dy) := $*
+	
+	if{and {~ $first false} {isout $x $y}}{
+		result = $x $y
+	}{ismember ${expr $x $dx +} ${expr $y $dy +} $balls}{
+		result = hit
+	}{ismember ${expr $x $dx + $dy +} ${expr $y $dy + $dx +} $balls}{
+		result = ${traceray0 false $x ${expr $dy _} $y ${expr $dx _}}
+	}{ismember ${expr $x $dx + $dy -} ${expr $y $dy + $dx -} $balls}{
+		result = ${traceray0 false $x $dy $y $dx}
+	}{
+		result = ${traceray0 false ${expr $x $dx +} $dx ${expr $y $dy +} $dy}
+	}
+}
+
+fn score{
+	if{~ $#guess $#balls}{
+		missed := ${comm-2 $"guess $"balls X}
+		{} ${comm-2 $"balls $"guess @}
+		if{ntest $missed}{
+			msg you missed $missed 'ball(s); '^
+				your score is ${expr $missed 5 x $score +}^.
+		}{
+			msg congrats! your score is $score^.
+		}
+	}{
+		msg there are ${expr $#balls 2 /} hidden 'balls; '^
+			you have placed ${expr $#guess 2 /}^.
+	}
+}
+
+fn newgame{
+	balls = ()
+	guess = ()
+	score = 0
+	detour = 0
+
+	hideballs
+	drawbox
+	# {} ${comm-2 $"balls $"guess b}	# debug
+}
+
+id = `{cat /mnt/acme/new/ctl}
+wdir = /mnt/acme/^${hd $id}
+echo noscroll >$wdir/ctl
+echo name /blackbox/- >$wdir/ctl
+
+# attempt to set fixed-width font
+echo -n Font >$wdir/tag
+echo Mx29 33 >$wdir/event
+echo cleartag >$wdir/ctl
+
+echo -n ' NewGame Score Quit' >$wdir/tag
+newgame
+run ${pipe from {cat $wdir/event >[2]/dev/null | acmeevent}}

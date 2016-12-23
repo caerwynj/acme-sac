@@ -1,0 +1,80 @@
+load std
+load arg
+autoload=std
+
+fn awk {
+	os awk $*
+}
+
+fn 9c {
+	load arg
+	args := $*
+	flags=''
+	(arg
+		I+ {flags = $flags  -I ^ `{file2root $arg}}
+		D+ {flags = $flags -$opt ^ $arg}
+		'*' {echo unknown option $opt}
+		- $args
+	)
+	cc=cc
+	cwd=$emuroot ^ `pwd
+	cflags=(-c 
+		-mt
+		-g
+		-w
+		-xCC
+		-I$emuroot/sys/Solaris/sparc/include
+		-I$emuroot/sys/include
+		-I$emuroot/sys/libinterp
+		-I$emuroot/sys/emu/port
+#		'-DROOT='$emuroot
+#		-DEMU
+		-I$cwd
+		)
+	file=$1
+	echo os -d $cwd $cc $cflags $file
+	os -d $cwd `{echo $cc $cflags $flags $file }
+}
+
+fn 9l {
+	ld=cc
+	ldflags=(-mt
+		-L/usr/openwin/lib )
+	syslibs=(-lsunmath -lsocket -lm -lX11 -lXext -lnsl -lposix4)
+	cwd=$emuroot ^ `pwd
+	
+	args = $*
+	echo os $ld $ldflags $args
+	os -d $cwd `{echo $ld $ldflags  $args $syslibs}
+}
+
+fn file2root {
+	args = $*
+	for (i in $args) {
+		i = `{cleanname -d `pwd $i}
+		echo $emuroot ^ $i
+	}
+}
+
+fn 9ar {
+	ar=ar
+	cwd=$emuroot ^ `pwd
+	arflags=cvru
+	file=$1
+	file=`{cleanname -d `pwd $file}
+	file=`{echo $emuroot ^ $file }
+	args = ${tl $*}
+	echo os $ar $arflags $args
+	os -d $cwd `{echo $ar $arflags $file $args}
+}
+
+fn 9a {
+	as=cc
+	asflags=-c
+	args=$*
+	cwd=$emuroot ^ `pwd
+	echo os $as $asflags $args
+	os -d $cwd $as $asflags $args
+}
+
+bind /sys/Solaris/mkconfig /sys/mkconfig

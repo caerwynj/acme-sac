@@ -1,0 +1,41 @@
+#!/bin/sh
+
+export acmedir=`dirname "$0"`
+export SYSHOST=MacOSX
+export OBJTYPE=386
+export EMU=emu
+export osMajorVer=`uname -r | cut -f1 -d.`
+
+if ( uname -s | grep -i linux >/dev/null ); then
+	SYSHOST=Linux
+fi
+
+if ( uname -p | grep -i power >/dev/null ); then
+        OBJTYPE=power
+fi
+
+if [ "$SYSHOST" = "MacOSX" ] && [ "$osMajorVer" -lt 8 ]; then
+	EMU=emu-x11
+fi
+
+case $1 in
+	-x|-x11|-X|-X11)
+		if [ -f sys/$SYSHOST/$OBJTYPE/bin/emu-x11 ]; then
+			EMU=emu-x11
+		fi
+		shift 1
+		;;
+	*)
+		break
+		;;
+esac
+
+if [ "$EMU" = "emu-x11" ]; then
+	export DISPLAY=":0"
+	if [[ $osMajorVer < 9 ]]; then
+		open /Applications/Utilities/X11.app
+	fi	
+fi
+
+cd $acmedir
+./sys/$SYSHOST/$OBJTYPE/bin/$EMU $*

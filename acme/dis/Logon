@@ -1,0 +1,7 @@
+#!/dis/sh
+
+Feedkey
+# could do secstore
+(a b) := `{getkey 'proto=pass service=logon'}
+
+crypt -d -k $b < /usr/$a/keyring/factotum.cr | getlines {echo $line} > /mnt/factotum/ctl

@@ -1,0 +1,40 @@
+.TH MC 1
+.SH NAME
+mc \- multicolumn print
+.SH SYNOPSIS
+.B mc
+[
+.BI -c " columns"
+]
+[
+.I file ...
+]
+.SH DESCRIPTION
+.I Mc
+formats the contents of
+.I files
+(standard input by default) into columns.
+.I Columns
+is an integer specifying the number of
+character widths into which
+.IR mc 's
+output is formatted.
+If run in an
+.IR acme (1)
+window, the default
+.I columns
+is the number of zeros that will fit across the window;
+otherwise the default
+.I columns
+is 65.
+.SH SOURCE
+.B /appl/cmd/mc.b
+.SH "SEE ALSO"
+.IR acme (1)
+.SH BUGS
+The columns are not aligned properly
+if the input contains tabs.
+.br
+The output doesn't fit the width of a
+.IR wm-sh (1)
+window by default.

@@ -1,0 +1,58 @@
+.TH RDBGSRV 8
+.SH NAME
+rdbgsrv \- remote debug server
+.SH SYNOPSIS
+.B "bind -b '#t' /dev"
+.PP
+.B auxi/rdbgsrv
+[
+.BI \-d n
+] [
+.BI \-s baud
+] [
+.BI \-f dev
+]
+.I mountpoint
+.SH DESCRIPTION
+.I Rdbgsrv
+interposes itself between
+.I dev
+(default:
+.BR /dev/eia0 )
+and
+.I mountpoint
+to convey 9P messages via the serial port to and from a 9P server program
+running on a board running native Inferno.
+The
+.B \-f
+option specifies the serial device; the default is
+.BR /dev/eia0 .
+The
+.B \-s
+option sets the line speed; the default is 38400 baud.
+The
+.B \-d
+option selects debugging options by a bit mask:
+1, print trace of 9P message types;
+2, print actual 9P message contents.
+.PP
+The monitor program on the board must be started first.
+.I Rdbgsrv
+writes the two byte message
+.BR go ,
+and keeps reading the device until it sees the reply
+.BR ok .
+It then attempts to mount the exported name space, and
+copies 9P messages to and from the device.
+.PP
+Once
+.I rdbgsrv
+is running, any device files provided by the program
+will be visible at
+.IR mountpoint .
+.SH SOURCE
+.B /appl/auxi/rdbgsrv.b
+.SH SEE ALSO
+.IR styxchat (8)
+.SH BUGS
+No error recovery is applied, let alone error correction.

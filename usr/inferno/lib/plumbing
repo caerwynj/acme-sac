@@ -1,0 +1,92 @@
+# these are in order from most specific to least,
+# since first rule that fires wins.
+# to update: cat $home/lib/plumbing > /chan/plumb.rules
+# to read: cat /chan/plumb.rules
+# cat /chan/plumb.rules | awk '/^$/ {print "\n# rule " i++} ! /^$/ {print}
+
+# Microsoft Windows file names
+kind is text
+data matches '(^[a-zA-Z]):(.*)'
+plumb alwaysstart acme
+plumb start /dis/sh.dis -c 'plumb -d edit /n/^`{echo $1 | tr A-Z a-z}^`{echo $2 | tr ''\\ '' /␣}'
+
+# files to send to host (windows)
+kind is text
+data matches '[a-zA-Z0-9␣_\-./]+'
+data matches '([a-zA-Z0-9␣_\-./]+)\.(jpg|jpeg|gif|bit|png|pdf|dvi|ps|doc|xls|cgm|zip|ppt|exe|wav|bmp)'
+data isfile $0
+plumb alwaysstart winstart 
+plumb start /dis/sh.dis -c 'dos $0'
+
+# sounds go to auplay
+kind is text
+data matches '[a-zA-Z0-9_\-./]+'
+data matches '([a-zA-Z0-9_\-./]+)\.(iaf|wav)'
+data isfile     $0
+plumb alwaysstart auplay
+plumb start /dis/auplay.dis $file
+
+# Simple URLs ending in .acme to go acme
+kind is text
+data matches '(https?|file)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=@]+([:.][@a-zA-Z0-9_?,%#~&/\-+=]+)*\.acme'
+plumb alwaysstart jwin
+plumb start /dis/Jwin.dis -f $0
+
+# Simple URLs go to Charon
+# Starting charon doesn't work for acme because it doesn't see the acme namespace
+kind is text
+data matches '(https?|file)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=@]+([:.][@a-zA-Z0-9_?,%#~&/\-+=]+)*'
+plumb to web
+plumb start /dis/charon.dis $0
+
+# URLs go to internet explorer
+#kind is text
+#data matches '(https?|ftp|file|gopher|mailto|news|nntp|telnet|wais|prospero)://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=@]+([:.][@a-zA-Z0-9_?,%#~&/\-+=]+)*'
+#plumb alwaysstart winstart
+#plumb start /dis/sh.dis -c 'winstart $0'
+
+# file URLs go to wm/charon
+#kind is text
+#data matches '[a-zA-Z0-9_/\-]+\.html?'
+#data isfile $0
+#data set file://localhost$file
+#plumb to web
+#plumb start /dis/charon.dis $data
+
+# existing files, possibly tagged by line number, go to acme
+kind is text
+data matches '([.a-zA-Z0-9_/\-]+[a-zA-Z0-9_/\-])(:(((#?[0-9]+)|(/[A-Za-z0-9_\^]+/?)|[.$])([,;+\-]((#?[0-9]+)|(/[A-Za-z0-9_\^]+/?)|[.$]))*))?'
+data isfile	$1
+data set	$file
+attr set	'action=showfile	addr=$3'
+plumb to edit
+plumb start /dis/acme.dis -c1 $file
+
+# existing directories go to acme
+kind is text
+data matches '[a-zA-Z¡-￿0-9_./\-]+'
+data isdir	$0
+data set	$dir
+plumb to edit
+plumb start /dis/acme.dis -c1 $dir
+
+# .m files are looked up in /module and passed to acme
+kind is text
+data matches '([a-zA-Z0-9]+\.m)(:(((#?[0-9]+)|(/[A-Za-z0-9_\^]+/?)|[.$])([,;+\-]((#?[0-9]+)|(/[A-Za-z0-9_\^]+/?)|[.$]))*))?'
+data isfile     /module/$1
+data set        $file
+attr set	'action=showfile	addr=$3'
+plumb to edit
+plumb start /dis/acme.dis -c1 $file
+
+# man pages
+kind is text
+data matches '([a-zA-Z¡-￿0-9_\-./]+)\(([0-9]+)\)'
+plumb alwaysstart man # nasty plumbing hack
+plumb start /dis/sh.dis -c '/dis/man -b $2 $1'
+
+# change plumb namespace
+kind is text
+data matches 'Local (.*)'
+plumb to none
+plumb start /dis/sh.dis -n -c $1

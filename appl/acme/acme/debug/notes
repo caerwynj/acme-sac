@@ -1,0 +1,31 @@
+There will be a mainwin that list the current running progs.  Right
+clicking on a prognum will grab the prog and open a new debug window
+on it.  The debug window shows the stack and responds to commands to
+step and control the prog.  The step will append to the window the
+current file position which can be right clicked to open the source
+window on that line.
+
+
+/prog/-Tasks   | Get Debug "cmd args"
+Get refreshes the task list with current status of each task
+
+/prod/pid/-Debug | Step Cont Stop Unstop Expand
+
+we need a way of expanding the stack by rightclicking on a symbol in the stack output.
+
+
+so mainwin replaces wm/task
+and the Pidwin replace wm/deb and wm/debdata
+and normal acme replace wm/src
+
+we also need a view of breakpoints.
+
+we will keep a debsrc module.
+this will be useful with the stack.
+
+use plumbing when stepping through code to have acme keep up with the code point.
+
+Instead of plumbing every step we need to write directly to the source window ctrl file to select the line or expression. And setbpt
+and the currently selected line we need to find the source file in acme window and get the selection there.
+
+so one window is going to talk to another window through the acme file system.

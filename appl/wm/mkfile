@@ -1,0 +1,15 @@
+<../../mkconfig
+
+DIRS=\
+
+SRC=`{ls *.b}
+TARG=${SRC:%.b=%.dis}
+
+MODULES=\
+
+SYSMODULES=`{grep '^include "' *.b | sed 's/.*"([^"]+)";.*$/\1/' |sort |uniq}
+
+DISBIN=$ROOT/dis/wm
+
+<$ROOT/mkfiles/mkdis
+<$ROOT/mkfiles/mksubdirs

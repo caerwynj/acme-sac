@@ -1,0 +1,45 @@
+SYSTARG=Solaris
+OBJTYPE=sparc
+<../../mkconfig
+SYSTARG=Solaris
+OBJTYPE=sparc
+
+#Configurable parameters
+
+CONF=emu			#default configuration
+CONFLIST=emu
+CLEANCONFLIST=
+
+INSTALLDIR=$ROOT/$SYSTARG/$OBJTYPE/bin	#path of directory where kernel is installed
+
+#end configurable parameters
+
+<| sh ../port/mkdevlist < $CONF	#sets $IP, $DEVS, $PORT, $LIBS
+
+OBJ=\
+	asm-$OBJTYPE.$O\
+	os.$O\
+	win-x11a.$O\
+	$CONF.root.$O\
+	lock.$O\
+	$DEVS\
+	$PORT\
+
+HFILES=\
+
+CFLAGS= '''-DROOT="/home/caerwy/workspace/acme-sac"''' -DEMU -I. -I../port -I../../$SYSTARG/$OBJTYPE/include -I../../include -I../../libinterp $CTHREADFLAGS $CFLAGS $EMUOPTIONS
+#SYSLIBS=$EMULIBS
+KERNDATE=`{$NDATE}
+
+default:V:	$O.$CONF
+
+<../port/portmkfile
+
+$O.$CONF:	$OBJ $CONF.c $CONF.root.h $LIBFILES
+	$CC $CFLAGS '-DKERNDATE='$KERNDATE $CONF.c
+	$LD $LDFLAGS $OBJ $CONF.$O $LIBFILES $SYSLIBS
+
+install:V: $O.$CONF
+	cp $O.$CONF $INSTALLDIR/$CONF
+
+devfs.$O:	../port/devfs-posix.c

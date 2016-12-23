@@ -1,0 +1,33 @@
+</mkconfig
+
+SRC=`{ls *.b}
+TARG=${SRC:%.b=%.dis}
+
+MODULES=\
+	cache.m\
+	contents.m\
+	date.m\
+	httpd.m\
+	parser.m\
+	redirect.m\
+	alarms.m\
+	cgiparse.m\
+
+SYSMODULES=
+
+LOGS=	httpd.debug\
+	httpd.log\
+	httpd.rewrite\
+	httpd.suff\
+
+DISBIN=$ROOT/dis/svc/httpd
+
+<$ROOT/mkfiles/mkdis
+
+install:V: 
+
+install-logs-sh:V:
+	for (i in $LOGS) {
+		rm -f $ROOT/services/httpd/$i && cp $i $ROOT/services/httpd/$i
+	}
+	# chmod 644 $ROOT/services/httpd/httpd.log

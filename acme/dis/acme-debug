@@ -1,0 +1,7 @@
+#!/dis/sh
+
+
+os $emuroot ^ /Acme.exe  -c0 '-pheap=128M' '-pmain=128M' /dis/sh.dis -l -c 'run /lib/sh/profile; styxlisten -A ''tcp!*!6666'' export /prog; run $home/lib/profile' &
+
+echo Local mount -A tcp!localhost!6666 /prog
+echo adeb

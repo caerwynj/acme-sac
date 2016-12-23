@@ -1,0 +1,16 @@
+#!/dis/sh
+
+file := $1
+if {ftest -e $file} {
+	mdb $file '$s'
+} {ftest -e $file.dis} {
+	mdb $file.dis '$s'
+} {ftest -e /dis/$file} {
+	s := `{mdb /dis/$file '$s'}
+	if {~ $#s  0} {
+		echo /dis/$file
+	} {echo $s}
+} {ftest -e /dis/$file.dis} {
+	mdb /dis/$file.dis '$s'
+}
+
