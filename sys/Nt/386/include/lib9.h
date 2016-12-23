@@ -13,11 +13,13 @@
 #include <direct.h>
 
 #define	getwd	infgetwd
+#define	strtod	infstrtod
+#define	strtoll	infstrtoll
+#define	strtoull	infstrtoull
+#undef environ
 
 /* do-it-yourself isinf and isnan */
-#ifndef isnan
 #define isnan(x) _isnan(x)
-#endif
 #ifndef isinf
 #define isinf(x) (!_finite(x))
 #endif
