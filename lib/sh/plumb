@@ -1,0 +1,7 @@
+#!/dis/sh
+
+ndb/cs
+mount -A 'tcp!localhost!styx' /n/remote
+bind /n/remote/chan /chan
+plumb  $*
+echo halt > /dev/sysctl

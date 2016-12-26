@@ -15,6 +15,8 @@ To build the Acme.exe follow these steps.
 4. Inside Acme open a command window by clicking the middle mouse button on the word win.
 5. At the win command prompt type the following:
 
+
+
 	% cd /sys
 	% run Nt/profile
 	% mk
