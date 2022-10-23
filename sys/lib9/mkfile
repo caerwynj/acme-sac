@@ -80,4 +80,5 @@ OFILES=$COMMONFILES $TARGFILES
 HFILES=../$SYSTARG/$OBJTYPE/include/lib9.h\
 	fmtdef.h\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+

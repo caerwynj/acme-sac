@@ -1,43 +1,75 @@
-#!/dis/sh
-load echo std string regex
+$AWK '
+BEGIN{
+		var["init"] = "INIT=";
+		var["ip"] = "IP=";
+		var["lib"] = "LIBS=";
+		var["root"] = "ROOTFILES=";
+		infernoroot = ENVIRON["ROOT"];
+}
+/^$/{		next;
+}
+/^#/{		next;
+}
+/^env/{
+		inenv = 1;
+		next;
+}
+inenv != 0 && /^[ 	]/{
+		sub("^[ 	]*", "", $0)
+		printf "%s\n", $0
+		next
+}
 
-port='PORT='
-dev='DEVS='
-lib='LIBS='
-init='INIT='
-env=''
-
-#O=.obj
-
-ifs := ' 	'
-indent := '^[ 	]'
-typere := '^(env|code|dev|init|ip|lib|link|mod|misc|port|root)'
-	
-getlines {
-	if {match $typere $line } {
-		(type rest) = ${split $ifs $line}
-	} {match $indent $line} {
-		objs := ${split $ifs $line}
-		if {~ $type port} {
-			port = $port $objs ^ .$O
-		} {~ $type dev} {
-			dev = $dev dev ^ ${hd $objs} ^ .$O
-			and {! ~ $#{tl $objs} 0} {dev = $dev ${tl $objs} ^ .$O}
-		} {~ $type lib} {
-			lib = $lib ${hd $objs}
-		} {~ $type init} {
-			init = $init ${hd $objs}
-		} {~ $type env} {
-			env = $objs
-		} {~ $type mod} {
-			and {! ~ $#{tl $objs} 0} {dev = $dev ${tl $objs} ^ .$O}
+/^(code|dev|init|ip|lib|link|mod|misc|port|root)/{
+		inenv = 0;
+		type = $1;
+		next;
+}
+/^[^ 	]/	{
+		inenv = 0;
+}
+type && /^[ 	]/{
+		if(type == "code")
+			next;
+		if(type == "root"){
+			if (NF > 1)
+				file = $2;
+			else if ($1 == "/osinit.dis")
+				next;	# handled via explicit dependency
+			else
+				file = $1;
+			if(rootfile[file] == 0){
+				var[type] = var[type] " " infernoroot file;
+				rootfile[file]++;
+			}
+			next;
 		}
-	} {match '^$|#.*' } {} {type=''}
-
-} $*
-
-echo $port
-echo $dev
-echo $lib
-echo $init
-echo $env
+		if(type == "init" || type == "lib"){
+			var[type] = var[type] " " $1;
+			next;
+		}
+		file = $1 "'.$O'"
+		if(type == "port")
+			port[file]++;
+		else if(type == "dev")
+			obj["dev" file]++;
+		else if(type != "mod")
+			obj[file]++;
+		for(i = 2; i <= NF; i++){
+			if($i !~ "^[+=-].*")
+				obj[$i "'.$O'"]++;
+		}
+		next;
+}
+END{
+		x = ""
+		for(i in obj)
+			x = x " " i
+		printf "DEVS=%s\n", x;
+		x = ""
+		for(i in port)
+			x = x " " i
+		printf "PORT=%s\n", x
+		for(v in var)
+			printf "%s\n", var[v]
+}' $*

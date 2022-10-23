@@ -1,0 +1,91 @@
+#!/dis/sh
+load echo std string regex expr
+
+port=
+dev=
+lib=
+init=
+env=
+link=
+mod=
+misc=
+code=
+
+O=.obj
+
+ifs := ' 	'
+indent := '^[ 	]'
+typere := '^(env|code|dev|init|ip|lib|link|mod|misc|port|root)'
+	
+getlines {
+	if {match $typere $line } {
+		(type rest) = ${split $ifs $line}
+	} {match $indent $line} {
+		objs := ${split $ifs $line}
+		if {~ $type port} {
+			port = $port $objs
+		} {~ $type dev} {
+			dev = $dev  ${hd $objs}
+		} {~ $type lib} {
+			lib = $lib ${hd $objs}
+		} {~ $type init} {
+			init = $init ${hd $objs}
+		} {~ $type env} {
+			env = $objs
+		} {~ $type ip} {
+			ip = $ip $objs
+		} {~ $type mod} {
+			mod = $mod ${hd $objs}
+		} { ~ $type code} {
+			code = $code $line
+		}
+	} {match '^$|#.*' } {} {type=''}
+
+}  $*
+
+echo '#include "dat.h"'
+echo '#include "fns.h"'
+echo '#include "error.h"'
+echo '#include "interp.h"'
+echo '#include "' ^ $CONF ^ '.root.h"'
+echo
+echo 'ulong ndevs = ' ^ ${expr 8 $#dev +} ^ ';'
+echo
+for i in $dev { echo 'extern Dev ' $i ^ 'devtab;'}
+echo
+echo 'Dev* devtab[]={'
+for i in $dev {echo '	&' ^ $i ^ 'devtab,'}
+for i in 1 2 3 4 5 6 7 8 {echo '	nil,'}
+echo '	nil,
+};
+
+'
+for i in $link {echo 'extern void' $i ^ 'link(void);'}
+echo 'void links(void){'
+for i in $link {echo '	' ^ $i ^ 'link();'}
+echo '}
+
+'
+for i in $mod {echo 'extern void ' $i ^ 'modinit(void);'}
+echo 'void modinit(void){'
+for i in $mod {echo '	' ^ $i ^ 'modinit();'}
+echo '}
+
+'
+
+if {! ~ $#ip 0} {
+	echo '#include "../ip/ip.h"'
+	for i in $ip {echo 'extern void ' ^ $i ^ 'ini(Fs*);'}
+	echo 'void (*ipprotoinit[])(Fs*) = {'
+	for i in $ip {echo '	' ^ $i ^ 'init,'}
+	echo '	nil,
+};
+
+'
+}
+
+
+for i in $code {echo $i}
+
+echo 'char* conffile="' ^ $CONF ^ '";'
+echo 'ulong kerndate = KERNDATE;'

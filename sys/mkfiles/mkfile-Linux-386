@@ -1,0 +1,31 @@
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		386
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	ruvs
+
+AS=		cc -c -m32
+ASFLAGS=
+
+CC=		cc -c -m32
+CFLAGS=		-g\
+		-O\
+		-fno-strict-aliasing\
+		-fno-aggressive-loop-optimizations\
+		-Wuninitialized -Wunused-variable -Wreturn-type -Wimplicit\
+		-I$ROOT/Linux/386/include\
+		-I$ROOT/include\
+		-DLINUX_386
+
+ANSICPP=
+LD=		cc -m32
+LDFLAGS=
+
+SYSLIBS=
+
+YACC=		iyacc
+YFLAGS=		-d

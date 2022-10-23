@@ -14,4 +14,4 @@ HFILES=\
 	../include/interp.h\
 	keys.h\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

@@ -27,4 +27,5 @@ UPDATE=mkfile\
 	$HFILES\
 	$CFILES\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+

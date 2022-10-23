@@ -47,7 +47,7 @@ UPDATE=mkfile\
 	$HFILES\
 	$CFILES\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
 
 # the remainder are only intended for testing on a few system types
 test.$O:	test.c $ROOT/$OBJDIR/include/lib9.h $ROOT/include/mp.h port/dat.h

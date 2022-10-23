@@ -1,0 +1,43 @@
+#!/dis/sh
+load echo std string regex
+
+port='PORT='
+dev='DEVS='
+lib='LIBS='
+init='INIT='
+env=''
+
+#O=.obj
+
+ifs := ' 	'
+indent := '^[ 	]'
+typere := '^(env|code|dev|init|ip|lib|link|mod|misc|port|root)'
+	
+getlines {
+	if {match $typere $line } {
+		(type rest) = ${split $ifs $line}
+	} {match $indent $line} {
+		objs := ${split $ifs $line}
+		if {~ $type port} {
+			port = $port $objs ^ .$O
+		} {~ $type dev} {
+			dev = $dev dev ^ ${hd $objs} ^ .$O
+			and {! ~ $#{tl $objs} 0} {dev = $dev ${tl $objs} ^ .$O}
+		} {~ $type lib} {
+			lib = $lib ${hd $objs}
+		} {~ $type init} {
+			init = $init ${hd $objs}
+		} {~ $type env} {
+			env = $objs
+		} {~ $type mod} {
+			and {! ~ $#{tl $objs} 0} {dev = $dev ${tl $objs} ^ .$O}
+		}
+	} {match '^$|#.*' } {} {type=''}
+
+} $*
+
+echo $port
+echo $dev
+echo $lib
+echo $init
+echo $env

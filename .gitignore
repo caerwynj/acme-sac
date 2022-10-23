@@ -56,3 +56,9 @@ sys/emu/Nt/iacme.exe
 sys/emu/Nt/icell.exe
 .hgignore
 iacme.exe
+*.o
+
+o.emu
+o.*
+services/httpd/httpd.log
+Dockerfile

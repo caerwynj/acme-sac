@@ -1,0 +1,28 @@
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		spim
+
+O=		o
+OS=		o
+
+AR=		mipsel-linux-gnu-ar
+ARFLAGS=	crvs
+
+AS=		mipsel-linux-gnu-gcc -c -mips32
+ASFLAGS=
+
+CC=		mipsel-linux-gnu-gcc -c -mips32
+CFLAGS=		-g\
+		-Os\
+		-I$ROOT/Linux/spim/include\
+		-I$ROOT/include\
+ 		-I/usr/include/X11
+
+ANSICPP=
+LD=		mipsel-linux-gnu-gcc
+LDFLAGS=	-L/usr/lib/X11
+
+SYSLIBS=
+
+YACC=		iyacc
+YFLAGS=		-d

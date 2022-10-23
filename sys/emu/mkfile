@@ -1,4 +1,4 @@
-<../mkconfig
+<$ROOT/mkconfig
 
 all:V:	all-$HOSTMODEL
 install:V:	install-$HOSTMODEL

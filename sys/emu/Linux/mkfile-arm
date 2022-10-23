@@ -1,0 +1,2 @@
+ARCHFILES=\
+	arm-tas-v5.$O\

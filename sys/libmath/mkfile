@@ -61,7 +61,7 @@ HFILES=\
 	../include/mathi.h\
 	fdlibm/fdlibm.h\
 	
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
 
 %.$O:	fdlibm/%.c
 	$CC $CFLAGS -Ifdlibm fdlibm/$stem.c

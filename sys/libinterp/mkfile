@@ -35,46 +35,48 @@ HFILES=\
 	runt.h\
 	tab.h\
 
+IROOT=$ROOT/..
+
 MODULES=\
-	/module/runt.m\
-	/module/sys.m\
-	/module/draw.m\
-	/module/math.m\
-	/module/keyring.m\
-	/module/loader.m\
-	/module/ipints.m\
-	/module/crypt.m\
+	$IROOT/module/runt.m\
+	$IROOT/module/sys.m\
+	$IROOT/module/draw.m\
+	$IROOT/module/math.m\
+	$IROOT/module/keyring.m\
+	$IROOT/module/loader.m\
+	$IROOT/module/ipints.m\
+	$IROOT/module/crypt.m\
 	keyringif.m\
 
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
 
 runt.h:D: $MODULES
-	rm -f $target && limbo -a -I/module /module/runt.m > $target
+	rm -f $target && limbo -a -I$IROOT/module $IROOT/module/runt.m > $target
 
 sysmod.h:D: $MODULES
-	rm -f $target && limbo -t Sys -I/module /module/runt.m > $target
+	rm -f $target && limbo -t Sys -I$IROOT/module $IROOT/module/runt.m > $target
 
 keyring.h:D: $MODULES
-	rm -f $target && limbo -t Keyring -I/module keyringif.m > $target
+	rm -f $target && limbo -t Keyring -I$IROOT/module keyringif.m > $target
 
 drawmod.h:D: $MODULES
-	rm -f $target && limbo -t Draw -I/module /module/runt.m > $target
+	rm -f $target && limbo -t Draw -I$IROOT/module $IROOT/module/runt.m > $target
 
 mathmod.h:D: $MODULES
-	rm -f $target && limbo -t Math -I/module /module/runt.m > $target
+	rm -f $target && limbo -t Math -I$IROOT/module $IROOT/module/runt.m > $target
 
 loadermod.h:D: $MODULES
-	rm -f $target && limbo -t Loader -I/module /module/runt.m > $target
+	rm -f $target && limbo -t Loader -I$IROOT/module $IROOT/module/runt.m > $target
 
 ipintsmod.h:D: $MODULES
-	rm -f $target && limbo -t IPints -I/module /module/ipints.m > $target
+	rm -f $target && limbo -t IPints -I$IROOT/module $IROOT/module/ipints.m > $target
 
 cryptmod.h:D: $MODULES
-	rm -f $target && limbo -t Crypt -I/module /module/runt.m > $target
+	rm -f $target && limbo -t Crypt -I$IROOT/module $IROOT/module/runt.m > $target
 
 keyringif.h:D: $MODULES keyringif.m
-	rm -f $target && limbo -a  -I/module keyringif.m > $target
+	rm -f $target && limbo -a  -I$IROOT/module keyringif.m > $target
 
 xec.$O:		optab.h  ../include/pool.h
 draw.$O: 	../include/draw.h ../include/drawif.h

@@ -32,4 +32,4 @@ OFILES=$COMMONFILES $SYSFILES
 HFILES=	../include/draw.h\
 	../include/memdraw.h\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

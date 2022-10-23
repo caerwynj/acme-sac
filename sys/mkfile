@@ -2,14 +2,19 @@
 
 DIRS=\
 	lib9\
-	libdraw\
-	libinterp\
-	libkeyring\
-	libmath\
-	libmemdraw\
-	libmemlayer\
+	utils/libbio\
 	libmp\
 	libsec\
+	libmath\
+	utils/iyacc\
+	utils/limbo\
+	libinterp\
+	libkeyring\
+	libdraw\
+	libmemdraw\
+	libmemlayer\
+	utils/data2c\
+	utils/ndate\
 	emu\
 
-</mkfiles/mksubdirs
+<$ROOT/mkfiles/mksubdirs

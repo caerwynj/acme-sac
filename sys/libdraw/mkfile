@@ -50,5 +50,5 @@ HFILES=\
 	../include/draw.h \
 	../include/interp.h\
 
-<../mksyslib
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
 
