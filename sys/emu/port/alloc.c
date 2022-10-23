@@ -2,6 +2,7 @@
 #include "fns.h"
 #include "interp.h"
 #include "error.h"
+#include "sys/mman.h"
 
 enum
 {
@@ -50,7 +51,7 @@ struct
 	{
 		{ "main",  0, 	32*1024*1024, 31,  512*1024, 0, 31*1024*1024 },
 		{ "heap",  1, 	32*1024*1024, 31,  512*1024, 0, 31*1024*1024 },
-		{ "image", 2,   32*1024*1024+256, 31, 4*1024*1024, 1, 31*1024*1024 },
+		{ "image", 2,   64*1024*1024+256, 31, 4*1024*1024, 1, 63*1024*1024 },
 	}
 };
 
@@ -373,15 +374,29 @@ dopoolalloc(Pool *p, ulong asize, ulong pc)
 	}
 
 	p->nbrk++;
-	t = (Bhdr *)sbrk(alloc);
+	/* t = (Bhdr *)sbrk(alloc); doesn't work on Alpine Linux */
+	t = (Bhdr *) mmap(0, alloc, PROT_READ|PROT_WRITE|PROT_EXEC, MAP_PRIVATE|MAP_ANONYMOUS, -1, 0);
 	if(t == (void*)-1) {
 		p->nbrk--;
 		unlock(&p->l);
 		return nil;
 	}
+#ifdef __NetBSD__
+	/* Align allocations to 16 bytes */
+	{
+		const size_t off = __builtin_offsetof(struct Bhdr, u.data)
+					+ Npadlong*sizeof(ulong);
+		struct assert_align {
+			unsigned int align_ok : (off % 8 == 0) ? 1 : -1;
+		};
+
+		const ulong align = (off - 1) % 16;
+		t = (Bhdr *)(((ulong)t + align) & ~align);
+	}
+#else
 	/* Double alignment */
 	t = (Bhdr *)(((ulong)t + 7) & ~7);
-
+#endif
 	if(p->chain != nil && (char*)t-(char*)B2LIMIT(p->chain)-ldr == 0){
 		/* can merge chains */
 		if(0)print("merging chains %p and %p in %s\n", p->chain, t, p->name);
