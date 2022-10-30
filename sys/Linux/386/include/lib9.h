@@ -20,7 +20,7 @@
 #include <errno.h>
 #define __NO_STRING_INLINES
 #include <string.h>
-#include "math.h"
+/* #include "math.h" */
 #include <fcntl.h>
 #include <setjmp.h>
 #include <float.h>
