@@ -62,3 +62,7 @@ o.emu
 o.*
 services/httpd/httpd.log
 Dockerfile
+
+*.dis
+*.sbl
+
