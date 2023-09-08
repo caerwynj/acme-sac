@@ -65,4 +65,5 @@ Dockerfile
 
 *.dis
 *.sbl
+.env
 

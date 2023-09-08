@@ -1,0 +1,71 @@
+<$ROOT/mkconfig
+
+LIB=libmp.a
+FILES=\
+	mpaux\
+	mpfmt\
+	strtomp\
+	mptobe\
+	mptole\
+	betomp\
+	letomp\
+	mpadd\
+	mpsub\
+	mpcmp\
+	mpfactorial\
+	mpmul\
+	mpleft\
+	mpright\
+	mpvecadd\
+	mpvecsub\
+	mpvecdigmuladd\
+	mpveccmp\
+	mpdigdiv\
+	mpdiv\
+	mpexp\
+	mpmod\
+	mpextendedgcd\
+	mpinvert\
+	mprand\
+	crt\
+	mptoi\
+	mptoui\
+	mptov\
+	mptouv\
+
+OFILES=${FILES:%=%.$O}
+
+HFILES=\
+	$ROOT/$OBJDIR/include/lib9.h\
+	../include/mp.h\
+	dat.h\
+
+CFILES=${FILES:%=%.c}
+
+
+UPDATE=mkfile\
+	$HFILES\
+	$CFILES\
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+
+# the remainder are only intended for testing on a few system types
+test.$O:	test.c $ROOT/$OBJDIR/include/lib9.h $ROOT/include/mp.h port/dat.h
+	$CC -Iport test.c
+
+$O.test:	test.$O $ROOT/$OBJDIR/lib/libmp.a
+	$LD -o $O.test test.$O
+
+bigtest.$O: bigtest.c  $ROOT/$OBJDIR/include/lib9.h $ROOT/include/mp.h port/dat.h
+	$CC -Iport bigtest.c
+
+$O.bigtest: bigtest.$O  $ROOT/$OBJDIR/lib/libmp.a
+	$LD -o $O.bigtest bigtest.$O
+
+allout:
+	objtype=386; OBJTYPE=$objtype; mk; mk 8.test 8.bigtest
+	objtype=power; OBJTYPE=$objtype; mk; mk q.test q.bigtest
+	objtype=mips; OBJTYPE=$objtype; mk; mk v.test v.bigtest
+
+cleanout:
+	rm -f [qv8].* *.[qv8]

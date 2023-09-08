@@ -1,10 +1,10 @@
 #!/bin/sh
 
-export acmedir=`dirname "$0"`
-export SYSHOST=MacOSX
-export OBJTYPE=386
-export EMU=emu
-export osMajorVer=`uname -r | cut -f1 -d.`
+acmedir=`dirname "$0"`
+SYSHOST=MacOSX
+OBJTYPE=386
+EMU=emu
+osMajorVer=`uname -r | cut -f1 -d.`
 
 if ( uname -s | grep -i linux >/dev/null ); then
 	SYSHOST=Linux
@@ -18,9 +18,24 @@ if [ "$SYSHOST" = "MacOSX" ] && [ "$osMajorVer" -lt 8 ]; then
 	EMU=emu-x11
 fi
 
+case `uname -m` in
+	armv7l)
+		OBJTYPE=arm
+		;;
+	aarch64)
+		OBJTYPE=arm64
+		;;
+	x86_64)
+		OBJTYPE=amd64
+		;;
+	*)
+		break
+		;;
+esac
+
 case $1 in
 	-x|-x11|-X|-X11)
-		if [ -f sys/$SYSHOST/$OBJTYPE/bin/emu-x11 ]; then
+		if [ -f $SYSHOST/$OBJTYPE/bin/emu-x11 ]; then
 			EMU=emu-x11
 		fi
 		shift 1
@@ -38,4 +53,5 @@ if [ "$EMU" = "emu-x11" ]; then
 fi
 
 cd $acmedir
-./sys/$SYSHOST/$OBJTYPE/bin/$EMU $*
+echo $acmedir/$SYSHOST/$OBJTYPE/bin/$EMU 
+./$SYSHOST/$OBJTYPE/bin/$EMU -r $acmedir $*

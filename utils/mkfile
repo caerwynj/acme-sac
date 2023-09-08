@@ -1,0 +1,65 @@
+<$ROOT/mkconfig
+
+#
+#	Utils we build everywhere, because the Plan 9 versions don't yet
+#	contain our changes (or they don't exist on Plan 9).
+#	Fairly soon the Plan 9 compilers will be updated to match.
+#
+ALWAYS=\
+	libregexp\
+	iyacc\
+	data2c\
+	data2s\
+	limbo\
+
+#
+#	Utils we build on Posix and Nt, which already exist on Plan 9.
+#
+NOTPLAN9=\
+	ndate\
+
+#
+#	Utils we build on Nt, for build environment compatibility.
+#
+NTONLY=\
+
+
+#
+# Thumb-1
+#
+OBSOLETE=\
+	ta\
+	tc\
+	tl\
+
+all:QV:		all-$TARGMODEL
+clean:QV:	clean-$TARGMODEL
+install:QV:	install-$TARGMODEL
+installall:QV:	installall-$TARGMODEL
+nuke:QV:	nuke-$TARGMODEL
+
+%-Plan9:QV:
+	for (j in $ALWAYS)
+	{
+		test -d $j && {
+			echo '@{cd' $j '; mk $MKFLAGS $stem}'
+			@{cd $j; mk $MKFLAGS $stem }
+		} || test ! -e $j
+	}
+
+%-Posix:QV:
+	for j in  $ALWAYS $NOTPLAN9
+	do
+		test -d $j || continue
+		echo "(cd $j; mk $MKFLAGS $stem)"
+		(cd $j; mk $MKFLAGS $stem) || exit 1
+	done
+
+%-Nt:QV:
+	for (j in  $ALWAYS $NTONLY $NOTPLAN9)
+	{
+		test -d $j && {
+			echo.exe '@{cd' $j '; mk $MKFLAGS $stem}'
+			@{cd $j; mk $MKFLAGS $stem }
+		} || test ! -e $j
+	}

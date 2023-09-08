@@ -8,17 +8,11 @@ You can build the limbo source tree from inside acme:
 	% mk install
 ```
 
-To build the Acme.exe follow these steps.
+To build the acme runtime `emu`  follow these steps on the host command line
 
-1. Download Install Microsoft Visual Studio Community Edition; include the C++ language package (this is now a custom option).
-2. Open a developer command prompt from the Visual Studio start menu folder
-3. Launch `Acme.exe` from inside the command prompt
-4. Inside Acme open a command window by clicking the middle mouse button on the word win.
-5. At the win command prompt type the following:
 ```
-	% cd /sys
-	% run Nt/profile
-	% mk
+	% ./makemk.sh
+	% mk install
 ```
 
-The `mk` command will build all the C libraries and inferno emulator. The `iacme.exe` should be in the `/sys/emu/Nt` folder.
+The `mk` command will build all the C libraries and inferno emulator. 

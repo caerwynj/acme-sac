@@ -1,0 +1,108 @@
+<$ROOT/mkconfig
+
+LIB=libinterp.a
+
+OFILES=\
+	alt.$O\
+	comp-$OBJTYPE.$O\
+	conv.$O\
+	crypt.$O\
+	dec.$O\
+#	dlm-$TARGMODEL.$O\
+	draw.$O\
+	gc.$O\
+	geom.$O\
+	heap.$O\
+	heapaudit.$O\
+	ipint.$O\
+	link.$O\
+	load.$O\
+	math.$O\
+	raise.$O\
+	readmod.$O\
+	runt.$O\
+	sign.$O\
+	stack.$O\
+	validstk.$O\
+	xec.$O\
+	das-$OBJTYPE.$O\
+	keyring.$O\
+	string.$O\
+
+HFILES=\
+	../include/interp.h\
+	../include/isa.h\
+	runt.h\
+	tab.h\
+
+MODULES=\
+	$ROOT/module/runt.m\
+	$ROOT/module/sys.m\
+	$ROOT/module/draw.m\
+	$ROOT/module/math.m\
+	$ROOT/module/keyring.m\
+	$ROOT/module/loader.m\
+	$ROOT/module/ipints.m\
+	$ROOT/module/crypt.m\
+	keyringif.m\
+
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE
+
+runt.h:D: $MODULES
+	rm -f $target && limbo -a -I$ROOT/module $ROOT/module/runt.m > $target
+
+sysmod.h:D: $MODULES
+	rm -f $target && limbo -t Sys -I$ROOT/module $ROOT/module/runt.m > $target
+
+keyring.h:D: $MODULES
+	rm -f $target && limbo -t Keyring -I$ROOT/module keyringif.m > $target
+
+drawmod.h:D: $MODULES
+	rm -f $target && limbo -t Draw -I$ROOT/module $ROOT/module/runt.m > $target
+
+mathmod.h:D: $MODULES
+	rm -f $target && limbo -t Math -I$ROOT/module $ROOT/module/runt.m > $target
+
+loadermod.h:D: $MODULES
+	rm -f $target && limbo -t Loader -I$ROOT/module $ROOT/module/runt.m > $target
+
+ipintsmod.h:D: $MODULES
+	rm -f $target && limbo -t IPints -I$ROOT/module $ROOT/module/ipints.m > $target
+
+cryptmod.h:D: $MODULES
+	rm -f $target && limbo -t Crypt -I$ROOT/module $ROOT/module/runt.m > $target
+
+keyringif.h:D: $MODULES keyringif.m
+	rm -f $target && limbo -a  -I$ROOT/module keyringif.m > $target
+
+xec.$O:		optab.h  ../include/pool.h
+draw.$O: 	../include/draw.h ../include/drawif.h
+
+runt.$O:	sysmod.h
+draw.$O:	drawmod.h
+math.$O:	mathmod.h
+keyring.$O:	keyring.h ipint.h keyringif.h
+ipint.$O:	ipint.h ipintsmod.h
+crypt.$O:	ipint.h runt.h cryptmod.h
+loader.$O:	loadermod.h
+math.$O:	../include/mathi.h
+
+das-spim.c:N:	das-mips.c
+das-68000.c:N:	das-68020.c
+comp-spim.c:N:	comp-mips.c
+
+kif.c:	kif.h
+	rm -f $target && kif -t $SYSTARG kif.h > $target
+kif.$O: kif.c
+	$CC $CFLAGS kif.c && rm -f kif.c
+
+# optab.h:	../include/isa.h mkoptab
+#	$SHELLNAME mkoptab > $target
+
+#	Do not remove optab.h, because the script that builds
+#	it works only on UNIX and Plan 9.
+
+nuke:EV:	nuke-std
+	rm -f runt.h sysmod.h drawmod.h prefabmod.h tkmod.h mathmod.h keyring.h readimagemod.h loadermod.h freetypemod.h kif.c cryptmod.h keyringif.h ipintsmod.h
+

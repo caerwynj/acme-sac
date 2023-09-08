@@ -1,0 +1,26 @@
+<$ROOT/mkconfig
+
+LIB=libmemlayer.a
+
+COMMONFILES=\
+	draw.$O\
+	layerop.$O\
+	ldelete.$O\
+	lhide.$O\
+	line.$O\
+	load.$O\
+	lorigin.$O\
+	lsetrefresh.$O\
+	ltofront.$O\
+	ltorear.$O\
+	unload.$O\
+	
+SYSFILES=lalloc.$O
+
+OFILES=$COMMONFILES $SYSFILES
+
+HFILES=	../include/draw.h\
+	../include/memdraw.h\
+	../include/memlayer.h
+
+<$ROOT/mkfiles/mksyslib-$SHELLTYPE

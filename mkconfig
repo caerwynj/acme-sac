@@ -1,0 +1,9 @@
+# In limbo mk none of this is actually used.
+ROOT=/usr/acme-sac
+SHELLTYPE=sh
+SYSHOST=Linux
+SYSTARG=$SYSHOST
+OBJTYPE=$objtype
+OBJDIR=$SYSTARG/$OBJTYPE
+<$ROOT/mkfiles/mkhost-$SYSHOST
+<$ROOT/mkfiles/mkfile-$SYSTARG-$OBJTYPE
