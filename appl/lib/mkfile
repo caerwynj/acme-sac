@@ -1,4 +1,4 @@
-<../../mkconfig
+<$ROOT/mkconfig
 
 DIRS=\
 	convcs\
@@ -9,15 +9,237 @@ DIRS=\
 	spki\
 	w3c\
 
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+TARG=\
+	acmewin.dis\
+	arg.dis\
+	asn1.dis\
+	attrdb.dis\
+	attrhash.dis\
+	auth.dis\
+	auth9.dis\
+	bloomfilter.dis\
+	bufio.dis\
+	cfg.dis\
+	cfgfile.dis\
+	chanfill.dis\
+	complete.dis\
+	crc.dis\
+	csv.dis\
+	daytime.dis\
+	dbm.dis\
+	debug.dis\
+	deflate.dis\
+	devpointer.dis\
+	dial.dis\
+	dict.dis\
+	dis.dis\
+	diskblocks.dis\
+	disks.dis\
+	env.dis\
+	ether.dis\
+	exception.dis\
+	factotum.dis\
+	fdrun.dis\
+	filepat.dis\
+	format.dis\
+	fsfilter.dis\
+	fslib.dis\
+	fsproto.dis\
+	hash.dis\
+	html.dis\
+	imageremap.dis\
+	inflate.dis\
+	ip.dis\
+	ipattr.dis\
+	json.dis\
+	keyset.dis\
+	libc.dis\
+	libc0.dis\
+	lists.dis\
+	lock.dis\
+	login.dis\
+	memfs.dis\
+	menuhit.dis\
+	midi.dis\
+	msgio.dis\
+	names.dis\
+	nametree.dis\
+	newns.dis\
+	ninep.dis\
+	oldauth.dis\
+	parseman.dis\
+	plumbing.dis\
+	plumbmsg.dis\
+	pop3.dis\
+	profile.dis\
+	pslib.dis\
+	rabin.dis\
+	rand.dis\
+	random.dis\
+	readdir.dis\
+	readgif.dis\
+	readjpg.dis\
+	readpicfile.dis\
+	readpng.dis\
+	readxbitmap.dis\
+	regex.dis\
+	regexutils.dis\
+	registries.dis\
+	rfc822.dis\
+	secstore.dis\
+	sets.dis\
+	sets32.dis\
+	sexprs.dis\
+	slip.dis\
+	smtp.dis\
+	sort.dis\
+	ssl.dis\
+	string.dis\
+	strinttab.dis\
+	styx.dis\
+	styxflush.dis\
+	styxlib.dis\
+	styxpersist.dis\
+	styxservers.dis\
+	tables.dis\
+	tftp.dis\
+	timers.dis\
+	titlebar.dis\
+	translate.dis\
+	ubfa.dis\
+	url.dis\
+	vac.dis\
+	venti.dis\
+	virgil.dis\
+	wait.dis\
+	watchvars.dis\
+	web.dis\
+	winplace.dis\
+	wmclient.dis\
+	wmlib.dis\
+	wmsrv.dis\
+	workdir.dis\
+	writegif.dis\
+	xml.dis\
+
 
 MODULES=
-SYSMODULES=
-DISBIN=/dis/lib
+SYSMODULES=\
+	9p.m\
+	acmewin.m\
+	arg.m\
+	asn1.m\
+	attrdb.m\
+	auth9.m\
+	bloomfilter.m\
+	bufio.m\
+	cfg.m\
+	cfgfile.m\
+	complete.m\
+	crc.m\
+	crypt.m\
+	csv.m\
+	daytime.m\
+	dbm.m\
+	debug.m\
+	devpointer.m\
+	dial.m\
+	dict.m\
+	dis.m\
+	diskblocks.m\
+	disks.m\
+	draw.m\
+	encoding.m\
+	env.m\
+	ether.m\
+	exception.m\
+	factotum.m\
+	fdrun.m\
+	filepat.m\
+	filter.m\
+	format.m\
+	fslib.m\
+	fsproto.m\
+	hash.m\
+	html.m\
+	imagefile.m\
+	ip.m\
+	ipattr.m\
+	ipints.m\
+	json.m\
+	keyring.m\
+	keyset.m\
+	libc.m\
+	libc0.m\
+	lists.m\
+	lock.m\
+	man.m\
+	math.m\
+	memfs.m\
+	menuhit.m\
+	midi.m\
+	msgio.m\
+	names.m\
+	newns.m\
+	oldauth.m\
+	pkcs.m\
+	plumbing.m\
+	plumbmsg.m\
+	pop3.m\
+	profile.m\
+	pslib.m\
+	rabin.m\
+	rand.m\
+	readdir.m\
+	regex.m\
+	regexutils.m\
+	registries.m\
+	rfc822.m\
+	secstore.m\
+	security.m\
+	sets.m\
+	sets32.m\
+	sexprs.m\
+	sh.m\
+	smtp.m\
+	sort.m\
+	ssl3.m\
+	sslsession.m\
+	string.m\
+	strinttab.m\
+	styx.m\
+	styxflush.m\
+	styxlib.m\
+	styxpersist.m\
+	styxservers.m\
+	sys.m\
+	tables.m\
+	tftp.m\
+	timers.m\
+	titlebar.m\
+	tk.m\
+	translate.m\
+	ubfa.m\
+	url.m\
+	vac.m\
+	venti.m\
+	wait.m\
+	watchvars.m\
+	web.m\
+	webget.m\
+	winplace.m\
+	wmclient.m\
+	wmlib.m\
+	wmsrv.m\
+	workdir.m\
+	xml.m\
 
-</mkfiles/mkdis
-</mkfiles/mksubdirs
+
+
+DISBIN=$ROOT/dis/lib
+
+<$ROOT/mkfiles/mkdis
+<$ROOT/mkfiles/mksubdirs
 
 $DISBIN/arg.dis: arg.dis
 	rm -f $DISBIN/arg.dis && cat arg.dis > $DISBIN/arg.dis
@@ -25,4 +247,3 @@ $DISBIN/arg.dis: arg.dis
 $DISBIN/readdir.dis: readdir.dis
 	rm -f $DISBIN/readdir.dis && cat readdir.dis > $DISBIN/readdir.dis
 	
-<| sh -c '{grep ''^include'' *.b | sed ''s/\.b:/\.dis:/;s/include[ 	]+"/\/module\//;s/";//''}'

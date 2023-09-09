@@ -1,11 +1,22 @@
-</mkconfig
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+<$ROOT/mkconfig
 
-MODULES=`{ls *.m >[2] /dev/null}
+TARG=adeb.dis
+
+MODULES=adeb.m
 
 SYSMODULES=\
+	acmewin.m\
+	arg.m\
+	bufio.m\
+	debug.m\
+	dis.m\
+	draw.m\
+	plumbmsg.m\
+	readdir.m\
+	string.m\
+	sys.m\
+	workdir.m\
 
-DISBIN=/acme/dis
+DISBIN=$ROOT/acme/dis
 <$ROOT/mkfiles/mkdis
 

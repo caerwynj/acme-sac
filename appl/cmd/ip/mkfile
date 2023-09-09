@@ -1,4 +1,4 @@
-<../../../mkconfig
+<$ROOT/mkconfig
 
 DIRS=\
 #	ppp\

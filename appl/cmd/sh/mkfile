@@ -1,4 +1,4 @@
-<../../../mkconfig
+<$ROOT/mkconfig
 
 TARG=sh.dis\
 	arg.dis\

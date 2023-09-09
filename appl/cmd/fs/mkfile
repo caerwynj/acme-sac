@@ -1,4 +1,4 @@
-<../../../mkconfig
+<$ROOT/mkconfig
 # fs write /n/local/n/fossil/usr/inferno {filter {and {not {or *.dis *.sbl}} {path /appl/cmd/fs /module/fslib.m /appl/lib/fslib.b /appl/cmd/fs.b /man/1/fs}} /}
 TARG=\
 	and.dis\

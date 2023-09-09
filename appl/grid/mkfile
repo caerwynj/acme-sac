@@ -1,14 +1,24 @@
-<../../mkconfig
+<$ROOT/mkconfig
 
 DIRS=\
 	lib\
 
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+TARG=\
+	register.dis\
+	reglisten.dis\
+	regstyxlisten.dis\
 
 MODULES=\
 
-SYSMODULES=`{grep '^include "' *.b | sed 's/.*"([^"]+)";.*$/\1/' |sort |uniq}
+SYSMODULES=\
+	arg.m\
+	draw.m\
+	grid/announce.m\
+	keyring.m\
+	registries.m\
+	security.m\
+	sh.m\
+	sys.m\
 
 DISBIN=$ROOT/dis/grid
 

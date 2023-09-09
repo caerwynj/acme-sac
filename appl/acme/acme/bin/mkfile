@@ -1,11 +1,41 @@
-</mkconfig
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+<$ROOT/mkconfig
 
-MODULES=`{ls *.m >[2] /dev/null}
+TARG=\
+	Ctag.dis\
+	Feedkey.dis\
+	Jwin.dis\
+	Navigator.dis\
+	Prompt.dis\
+	Sql.dis\
+	adiff.dis\
+	agrep.dis\
+	awd.dis\
+	cd.dis\
+	rect.dis\
+	spout.dis\
+	win.dis\
+	winm.dis\
+
+
+MODULES=\
 
 SYSMODULES=\
+	acmewin.m\
+	arg.m\
+	bufio.m\
+	draw.m\
+	ecmascript.m\
+	env.m\
+	names.m\
+	plumbmsg.m\
+	readdir.m\
+	regex.m\
+	sh.m\
+	string.m\
+	sys.m\
+	web.m\
+	workdir.m\
 
-DISBIN=/acme/dis
+DISBIN=$ROOT/acme/dis
 <$ROOT/mkfiles/mkdis
 

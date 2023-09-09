@@ -1,13 +1,31 @@
-<../../mkconfig
+<$ROOT/mkconfig
 
 DIRS=\
 
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+TARG=\
+	clock.dis\
+	colors.dis\
+	lens.dis\
+	view.dis\
+	wm.dis\
 
 MODULES=\
 
-SYSMODULES=`{grep '^include "' *.b | sed 's/.*"([^"]+)";.*$/\1/' |sort |uniq}
+SYSMODULES=\
+	arg.m\
+	bufio.m\
+	daytime.m\
+	draw.m\
+	imagefile.m\
+	math.m\
+	menuhit.m\
+	plumbmsg.m\
+	sh.m\
+	string.m\
+	sys.m\
+	winplace.m\
+	wmclient.m\
+	wmsrv.m\
 
 DISBIN=$ROOT/dis/wm
 

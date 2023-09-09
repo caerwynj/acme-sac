@@ -1,4 +1,4 @@
-<../../../mkconfig
+<$ROOT/mkconfig
 
 DIRS=\
 	prep\
@@ -19,7 +19,7 @@ SYSMODULES=\
 	bufio.m\
 	string.m\
 
-DISBIN=/dis/disk
+DISBIN=$ROOT/dis/disk
 
-</mkfiles/mkdis
-</mkfiles/mksubdirs
+<$ROOT/mkfiles/mkdis
+<$ROOT/mkfiles/mksubdirs

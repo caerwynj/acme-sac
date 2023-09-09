@@ -1,10 +1,18 @@
-</mkconfig
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+<$ROOT/mkconfig
 
-MODULES=`{ls *.m >[2] /dev/null}
+TARG=Wiki.dis
+
+MODULES=\
 
 SYSMODULES=\
+	acmewin.m\
+	arg.m\
+	bufio.m\
+	draw.m\
+	names.m\
+	sh.m\
+	string.m\
+	sys.m\
 
-DISBIN=/acme/dis
+DISBIN=$ROOT/acme/dis
 <$ROOT/mkfiles/mkdis

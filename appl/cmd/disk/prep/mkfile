@@ -1,4 +1,4 @@
-</mkconfig
+<$ROOT/mkconfig
 
 TARG=\
 	fdisk.dis\
@@ -17,10 +17,10 @@ SYSMODULES=\
 	bufio.m\
 	string.m\
 
-DISBIN=/dis/disk
+DISBIN=$ROOT/dis/disk
 
-</mkfiles/mkdis
+<$ROOT/mkfiles/mkdis
 
 # calc
-calc.tab.b:
-	yacc -s calc -d calc.y
+#calc.tab.b:
+#	yacc -s calc -d calc.y

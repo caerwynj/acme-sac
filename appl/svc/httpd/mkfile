@@ -1,7 +1,18 @@
-</mkconfig
+<$ROOT/mkconfig
 
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+TARG=\
+	alarms.dis\
+	cache.dis\
+	cgiparse.dis\
+	contents.dis\
+	date.dis\
+	echo.dis\
+	httpd.dis\
+	imagemap.dis\
+	parser.dis\
+	redirect.dis\
+	stats.dis\
+	wikipost.dis\
 
 MODULES=\
 	cache.m\

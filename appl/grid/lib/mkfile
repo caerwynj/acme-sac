@@ -1,11 +1,10 @@
-<../../../mkconfig
+<$ROOT/mkconfig
 
-SRC=`{ls *.b}
-TARG=${SRC:%.b=%.dis}
+TARG=announce.dis
 
 MODULES=\
 
-SYSMODULES=`{grep '^include "' *.b | sed 's/.*"([^"]+)";.*$/\1/' |sort |uniq}
+SYSMODULES=\
 
 DISBIN=$ROOT/dis/grid/lib
 

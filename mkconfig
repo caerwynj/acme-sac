@@ -1,5 +1,5 @@
 # In limbo mk none of this is actually used.
-ROOT=/usr/acme-sac
+ROOT=/home/pi/github/acme-sac
 SHELLTYPE=sh
 SYSHOST=Linux
 SYSTARG=$SYSHOST
