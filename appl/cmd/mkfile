@@ -12,6 +12,8 @@ DIRS=\
 	ndb\
 	sh\
 	wikifs\
+	fs\
+	dbm\
 
 TARG=\
 	9660srv.dis\

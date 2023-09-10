@@ -13,7 +13,7 @@ extern	char*	hosttype;
 char*	tkfont;	/* for libtk/utils.c */
 int	tkstylus;	/* libinterp/tk.c */
 extern	int	mflag;
-	int	dflag = 1;
+	int	dflag = 0;
 	int vflag;
 	int	vflag;
 	Procs	procs;
@@ -138,7 +138,7 @@ option(int argc, char *argv[], void (*badusage)(void))
 			usage();
 		break;
 	case 'I':	/* run with cons */
-		dflag = 0;
+		dflag = 1;
 		break;
 	case 'd':		/* run as a daemon */
 		dflag++;
