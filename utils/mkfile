@@ -10,7 +10,6 @@ ALWAYS=\
 	iyacc\
 	data2c\
 	data2s\
-	limbo\
 
 #
 #	Utils we build on Posix and Nt, which already exist on Plan 9.
