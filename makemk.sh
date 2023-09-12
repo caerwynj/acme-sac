@@ -8,7 +8,7 @@
 # ROOT should be the root of the Inferno tree
 ROOT=${ROOT:-/usr/acme-sac}
 SYSTARG=Linux
-OBJTYPE=arm
+OBJTYPE=${objtype:-arm}
 SYSTYPE=posix
 
 # if you have already changed mkconfig from the distribution, we'll use the definitions from that

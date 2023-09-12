@@ -1380,9 +1380,11 @@ ecom(Src *src, Node *nto, Node *n)
 			if(left->ty->tof == treal)
 				op = IINDF;
 			break;
+/* TODO 64bit case both IBY2LG and IBY2WD are same size
 		case IBY2WD:
 			op = IINDW;
 			break;
+*/
 		case 1:
 			op = IINDB;
 			break;

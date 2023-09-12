@@ -1,0 +1,30 @@
+TARGMODEL=	Posix
+TARGSHTYPE=	sh
+CPUS=		arm
+
+O=		o
+OS=		o
+
+AR=		ar
+ARFLAGS=	ruvs
+
+AS=		gcc -c 
+ASFLAGS=
+
+CC=		gcc -c 
+CFLAGS=		-O\
+		-g\
+		-w\
+		-Wuninitialized -Wunused-variable -Wreturn-type -Wimplicit\
+		-I$ROOT/Linux/arm64/include\
+		-I$ROOT/include\
+		-DLINUX_ARM64
+
+ANSICPP=
+LD=		gcc 
+LDFLAGS=	
+
+SYSLIBS=-lm
+
+YACC=		iyacc
+YFLAGS=		-d
