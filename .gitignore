@@ -66,4 +66,8 @@ Dockerfile
 *.dis
 *.sbl
 .env
+Linux/arm/bin/*
+Linux/arm64/bin/*
+Linux/arm/lib/*
+Linux/arm64/lib/*
 
