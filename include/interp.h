@@ -29,7 +29,7 @@ enum
 
 	/* STRUCTALIGN is the unit to which the compiler aligns structs. */
 	/* It really should be defined somewhere else */
-	STRUCTALIGN = sizeof(int)	/* must be >=2 because of Strings */
+	STRUCTALIGN = sizeof(long)	/* must be >=2 because of Strings */
 };
 
 enum
