@@ -26,7 +26,7 @@ IMPORTFILES=\
 	cistrncmp.$O\
 	cistrstr.$O\
 	cleanname.$O\
-#	create.$O\
+	create.$O\
 #	dirwstat.$O\
 	dofmt.$O\
 	dorfmt.$O\

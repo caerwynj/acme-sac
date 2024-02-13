@@ -67,3 +67,22 @@ Dockerfile
 *.sbl
 .env
 
+Linux/arm/bin/data2s
+emu/Linux/emu.c
+emu/Linux/emu.root.c
+emu/Linux/emu.root.h
+emu/Linux/errstr.h
+emu/Linux/srv.h
+emu/Linux/srvm.h
+libinterp/cryptmod.h
+libinterp/drawmod.h
+libinterp/ipintsmod.h
+libinterp/keyring.h
+libinterp/keyringif.h
+libinterp/mathmod.h
+libinterp/runt.h
+libinterp/sysmod.h
+limbo/y.tab.c
+limbo/y.tab.h
+Linux/arm/bin/*
+

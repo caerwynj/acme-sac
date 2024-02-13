@@ -1,2 +1,2 @@
 ARCHFILES=\
-	arm-tas-v5.$O\
+	arm-tas-v7.$O\

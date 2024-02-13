@@ -5,13 +5,13 @@ CPUS=		arm
 O=		o
 OS=		o
 
-AR=		ar
+AR=		arm-linux-gnueabihf-ar
 ARFLAGS=	ruvs
 
-AS=		gcc -c 
+AS=		arm-linux-gnueabihf-gcc-12 -c 
 ASFLAGS=
 
-CC=		gcc -c 
+CC=		arm-linux-gnueabihf-gcc-12 -c 
 CFLAGS=		-g\
 		-Wuninitialized -Wunused-variable -Wreturn-type -Wimplicit\
 		-I$ROOT/Linux/arm/include\
@@ -21,7 +21,7 @@ CFLAGS=		-g\
 		#"-march=armv4"
 
 ANSICPP=
-LD=		gcc 
+LD=		arm-linux-gnueabihf-gcc-12 
 LDFLAGS=	-fcommon \
 		#-Wl,--verbose
 
